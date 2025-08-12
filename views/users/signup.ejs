@@ -1,0 +1,168 @@
+<%= layout("/layouts/boilerplate") %>
+
+<style>
+    /* Form Container */
+    .signup-form-container {
+        background: linear-gradient(145deg, #ffffff, #f8fafc);
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        margin: 3rem auto;
+        max-width: 500px;
+        font-family: 'Poppins', sans-serif;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Subtle decorative element */
+    .signup-form-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #2c3e50, #3498db);
+        border-radius: 16px 16px 0 0;
+    }
+
+    /* Form Heading */
+    .signup-form-container h1 {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 2rem;
+        text-align: center;
+        letter-spacing: -0.025em;
+        background: linear-gradient(to right, #2c3e50, #3498db);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    /* Form Labels */
+    .form-label {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+
+    .form-label::after {
+        content: '*';
+        color: #e74c3c;
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
+
+    /* Form Inputs */
+    .form-control {
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 0.85rem 1.25rem;
+        font-size: 0.95rem;
+        background-color: #f8fafc;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-control:focus {
+        border-color: #3498db;
+        box-shadow: 0 0 0 4px rgba(52, 152, 219, 0.15);
+        background-color: #ffffff;
+        outline: none;
+    }
+
+    /* Submit Button */
+    .btn-primary {
+        background: linear-gradient(135deg, #2c3e50, #3498db);
+        border: none;
+        padding: 0.85rem 2.5rem;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+        transition: all 0.3s ease;
+        display: block;
+        margin: 2rem auto 0;
+        width: 100%;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        box-shadow: 0 6px 16px rgba(52, 152, 219, 0.4);
+        transform: translateY(-2px);
+    }
+
+    /* Login Link */
+    .login-link {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: #2c3e50;
+        font-size: 0.95rem;
+    }
+
+    .login-link a {
+        color: #3498db;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .login-link a:hover {
+        color: #2c3e50;
+        text-decoration: underline;
+    }
+
+    /* Error Messages */
+    .error-message {
+        color: #e74c3c;
+        font-size: 0.9rem;
+        margin-top: 0.5rem;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .signup-form-container {
+            margin: 2rem 1rem;
+            padding: 2rem;
+        }
+
+        .signup-form-container h1 {
+            font-size: 1.75rem;
+        }
+    }
+</style>
+
+<div class="signup-form-container">
+    <h1>Create Account</h1>
+    <form action="/signup" method="POST" novalidate class="needs-validation">
+        <div class="mb-3">
+            <label for="userId" class="form-label">User ID</label>
+            <input type="text" class="form-control" id="userId" name="userId" required>
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Sign Up</button>
+    </form>
+    <div class="login-link">
+        Already have an account? <a href="/login">Log In</a>
+    </div>
+</div>
+```

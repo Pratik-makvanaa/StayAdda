@@ -1,0 +1,53 @@
+<%= layout("/layouts/boilerplate") %>
+
+<div class="container mt-5">
+    <h2 class="mb-4">My Bookings</h2>
+    
+    <% if (bookings.length === 0) { %>
+        <div class="alert alert-info">
+            You haven't made any bookings yet. 
+            <a href="/listings" class="alert-link">Browse listings</a> to make your first booking!
+        </div>
+    <% } else { %>
+        <div class="row">
+            <% bookings.forEach(booking => { %>
+                <div class="col-md-6 mb-4">
+                    <div class="card h-100 shadow">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= booking.listing.title %></h5>
+                            <div class="mb-3">
+                                <small class="text-muted">Booking ID: <%= booking._id %></small>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <strong>Check-in:</strong><br>
+                                    <%= new Date(booking.checkIn).toLocaleDateString() %>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Check-out:</strong><br>
+                                    <%= new Date(booking.checkOut).toLocaleDateString() %>
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <strong>Guests:</strong><br>
+                                    <%= booking.guests %>
+                                </div>
+                                <div class="col-6">
+                                    <strong>Total Amount:</strong><br>
+                                    ₹<%= booking.totalAmount %>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span class="badge bg-<%= booking.status === 'confirmed' ? 'success' : 'warning' %>">
+                                    <%= booking.status.charAt(0).toUpperCase() + booking.status.slice(1) %>
+                                </span>
+                                <a href="/listings/<%= booking.listing._id %>" class="btn btn-sm btn-outline-primary">View Listing</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    <% } %>
+</div> 

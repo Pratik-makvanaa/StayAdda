@@ -1,0 +1,439 @@
+<%= layout("/layouts/boilerplate") %>
+
+<style>
+    .show-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .listing-header {
+        margin-bottom: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding-left: 1rem;
+    }
+
+    .listing-header h3 {
+        font-size: 2.5rem;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+
+    .listing-header .text-muted {
+        margin: 0;
+    }
+
+    .show-card {
+        border: none;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        border-radius: 1rem;
+        overflow: hidden;
+        margin-bottom: 2rem;
+    }
+
+    .show-img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+    }
+
+    .card-body {
+        padding: 2rem;
+    }
+
+    .listing-info {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 2rem;
+        margin: 2rem 0;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        background: #f8f9fa;
+        border-radius: 0.5rem;
+    }
+
+    .info-item i {
+        font-size: 1.5rem;
+        color: #2c3e50;
+    }
+
+    .price-section {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 0.5rem;
+        margin: 2rem 0;
+    }
+
+    .price-with-tax {
+        color: #2c3e50;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    .original-price {
+        text-decoration: line-through;
+        color: #666;
+        font-size: 1rem;
+        margin-right: 0.5rem;
+    }
+
+    .tax-toggle {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 1rem;
+        padding: 0.5rem 1rem;
+        margin-bottom: 1rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .tax-toggle .form-check-reverse {
+        margin: 0;
+        padding: 0;
+    }
+
+    .tax-toggle .form-check-label {
+        margin: 0;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .description-section {
+        margin: 2rem 0;
+        line-height: 1.8;
+        color: #444;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        margin: 2rem 0;
+    }
+
+    .btn {
+        padding: 0.8rem 2rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-dark {
+        background-color: #2c3e50;
+        border: none;
+    }
+
+    .btn-dark:hover {
+        background-color: #1a252f;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(44, 62, 80, 0.15);
+    }
+
+    .btn-primary {
+        background-color: #0284c7;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0369a1;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.15);
+    }
+
+    .booking-section {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 1rem;
+        margin: 2rem 0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    }
+
+    .booking-price {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    .booking-price span {
+        font-size: 1rem;
+        color: #666;
+        font-weight: normal;
+    }
+
+    .btn-book-now {
+        background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%);
+        color: white;
+        padding: 1rem 3rem;
+        font-size: 1.2rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 0.8rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        box-shadow: 0 4px 15px rgba(2, 132, 199, 0.2);
+    }
+
+    .btn-book-now:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(2, 132, 199, 0.3);
+        background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+    }
+
+    .btn-book-now:active {
+        transform: translateY(-1px);
+    }
+
+    .btn-book-now i {
+        font-size: 1.1rem;
+    }
+
+    @media (max-width: 768px) {
+        .booking-section {
+            flex-direction: column;
+            gap: 1.5rem;
+            text-align: center;
+            padding: 1.5rem;
+        }
+
+        .btn-book-now {
+            width: 100%;
+            justify-content: center;
+            padding: 0.8rem 2rem;
+        }
+    }
+
+    .reviews-section {
+        margin-top: 3rem;
+        padding-top: 2rem;
+        border-top: 1px solid #e0e0e0;
+    }
+
+    .review-form {
+        background: #f8f9fa;
+        padding: 2rem;
+        border-radius: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .review-card {
+        background: white;
+        border: none;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 0.5rem;
+        margin-bottom: 1rem;
+    }
+
+    .review-card .card-body {
+        padding: 1.5rem;
+    }
+
+    .review-author {
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 0.5rem;
+    }
+
+    .review-rating {
+        color: #f1c40f;
+        margin-bottom: 0.5rem;
+    }
+
+    .review-comment {
+        color: #666;
+        line-height: 1.6;
+    }
+
+    .form-range {
+        height: 1.5rem;
+    }
+
+    .form-range::-webkit-slider-thumb {
+        background: #2c3e50;
+    }
+
+    .form-range::-moz-range-thumb {
+        background: #2c3e50;
+    }
+
+    .back-button {
+        background: white;
+        border: none;
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-right: 1rem;
+    }
+
+    .back-button:hover {
+        transform: translateX(-5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .back-button i {
+        font-size: 1.2rem;
+        color: #2c3e50;
+    }
+</style>
+
+<div class="show-container">
+    <div class="listing-header">
+        <a href="/listings" class="back-button" title="Back to Explore">
+            <i class="fas fa-arrow-left"></i>
+        </a>
+        <div>
+            <h3><%= listing.title %></h3>
+            <% if(listing.owner){ %>
+                <p class="text-muted">Listed by <%= listing.owner.username %></p>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="show-card">
+        <img src="<%= listing.image.url %>" class="show-img" alt="<%= listing.title %>" />
+        <div class="card-body">
+            <div class="listing-info">
+                <div class="info-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h6 class="mb-0">Location</h6>
+                        <p class="mb-0"><%= listing.location %></p>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-globe"></i>
+                    <div>
+                        <h6 class="mb-0">Country</h6>
+                        <p class="mb-0"><%= listing.country %></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="price-section">
+                <div class="tax-toggle">
+                    <div class="form-check-reverse form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+                        <label class="form-check-label" for="switchCheckDefault">Show prices with GST</label>
+                    </div>
+                </div>
+                <p class="price-display mb-0" data-original-price="<%= listing.price %>">
+                    &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+                </p>
+            </div>
+
+            <div class="description-section">
+                <h5>About this place</h5>
+                <p><%= listing.description %></p>
+            </div>
+
+            <div class="booking-section">
+                <div class="booking-price">
+                    &#8377; <%= listing.price.toLocaleString("en-IN") %> <span>/ night</span>
+                </div>
+                <a href="/bookings/new/<%= listing._id %>" class="btn-book-now">
+                    <i class="fas fa-calendar-check"></i>
+                    Book Now
+                </a>
+            </div>
+
+            <% if(listing.owner && currUser && listing.owner._id.equals(currUser._id)) { %>
+                <div class="action-buttons">
+                    <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">Edit Listing</a>
+                    <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE" class="d-inline">
+                        <button class="btn btn-dark">Delete Listing</button>
+                    </form>
+                </div>
+            <% } %>
+        </div>
+    </div>
+
+    <div class="reviews-section">
+        <h4 class="mb-4">Reviews</h4>
+        
+        <% if(currUser) { %>
+            <div class="review-form">
+                <h5>Leave a Review</h5>
+                <form action="/listings/<%= listing.id %>/reviews" method="POST" class="needs-validation">
+                    <div class="mb-3">
+                        <label for="rating" class="form-label">Rating</label>
+                        <input type="range" min="1" max="5" id="rating" name="review[rating]" class="form-range" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="comment" class="form-label">Your Review</label>
+                        <textarea name="review[comment]" id="comment" rows="4" class="form-control" required></textarea>
+                        <div class="invalid-feedback">Please write your review</div>
+                    </div>
+                    <button class="btn btn-dark">Submit Review</button>
+                </form>
+            </div>
+        <% } %>
+
+        <div class="reviews-list">
+            <% for(review of listing.reviews) { %>
+                <div class="review-card">
+                    <div class="card-body">
+                        <div class="review-author">
+                            <% if(currUser) { %>
+                                <%= review.author.username %>
+                            <% } %>
+                        </div>
+                        <div class="review-rating">
+                            <% for(let i = 0; i < review.rating; i++) { %>
+                                <i class="fas fa-star"></i>
+                            <% } %>
+                        </div>
+                        <p class="review-comment"><%= review.comment %></p>
+                        <% if(currUser && review.author._id.equals(currUser._id)) { %>
+                            <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" class="mt-2">
+                                <button class="btn btn-sm btn-dark">Delete Review</button>
+                            </form>
+                        <% } %>
+                    </div>
+                </div>
+            <% } %>
+        </div>
+    </div>
+</div>
+
+<script>
+    const taxSwitch = document.getElementById("switchCheckDefault");
+    const priceDisplay = document.querySelector(".price-display");
+    const GST_RATE = 0.18; // 18% GST
+
+    function updatePrice(showWithTax) {
+        const originalPrice = parseFloat(priceDisplay.dataset.originalPrice);
+        if (showWithTax) {
+            const priceWithTax = originalPrice * (1 + GST_RATE);
+            priceDisplay.innerHTML = `
+                <span class="original-price">&#8377; ${originalPrice.toLocaleString("en-IN")}</span>
+                <span class="price-with-tax">&#8377; ${priceWithTax.toLocaleString("en-IN")} / night</span>
+            `;
+        } else {
+            priceDisplay.innerHTML = `&#8377; ${originalPrice.toLocaleString("en-IN")} / night`;
+        }
+    }
+
+    taxSwitch.addEventListener("change", (e) => {
+        updatePrice(e.target.checked);
+    });
+</script>

@@ -1,0 +1,138 @@
+<% layout("/layouts/boilerplate") %>
+
+<style>
+    #filters {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        }
+    .filter{
+        text-align: center;
+        margin-right: 3rem;
+        margin-top: 2rem;
+        color: rgb(0, 0, 0);
+    }
+    .filter:hover {
+        opacity: 3;
+        cursor: pointer;
+        color: rgb(97, 97, 97);
+    }
+    .filter p{
+        font-size: 0.8rem;
+    }
+
+    .tax-toggle {
+        border: 1px solid black;
+        border-radius: 1rem;
+        height: 3.5rem;
+        padding: 1rem;
+        margin-left: 3rem;
+        display: flex;
+        align-items: center;
+    }
+
+    .price-with-tax {
+        color: #2c3e50;
+        font-weight: 500;
+    }
+
+    .original-price {
+        text-decoration: line-through;
+        color: #666;
+        font-size: 0.9em;
+        margin-right: 0.5rem;
+    }
+</style>
+    <div id="filters">
+        <div class="filter">
+            <div><i class="fa-solid fa-fire"></i></div>
+            <p>Trending</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-bed"></i></div>
+            <p>Rooms</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-umbrella-beach"></i></div>
+            <p>Beech</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-mountain-sun"></i></div>
+            <p>Mountains</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-chess-rook"></i></div>
+            <p>Castles</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-person-swimming"></i></div>
+            <p>Pool</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-water"></i></div>
+            <p>Lake</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-volleyball"></i></div>
+            <p>Play</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-gopuram"></i></div>
+            <p>Temples</p>
+        </div>
+        <div class="filter">
+            <div><i class="fa-solid fa-chess-rook"></i></div>
+            <p>Camping</p>
+        </div>
+<div class="tax-toggle">
+    <div class="form-check-reverse form-switch">
+        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
+        <label class="form-check-label" for="switchCheckDefault">Show prices with GST</label>
+    </div>
+</div>
+
+    </div>
+    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+        <% for(let listing of allListings) { %>
+            <a href="/listings/<%=listing._id %>" class="listing-link">
+                <div class="card col listing-card" style="width: 100%;">
+                    <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>"
+                        style="height: 20rem ; width: 25rem" ;>
+                    <div class="card-img-overlay"></div>
+                    <div class="card-body">
+                        <p class="card-text">
+                            <b><%= listing.title %></b><br />
+                            <span class="price-display" data-original-price="<%= listing.price %>">
+                                &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </a>
+            <% } %>
+    </div>
+
+    <script>
+        const taxSwitch = document.getElementById("switchCheckDefault");
+        const priceDisplays = document.getElementsByClassName("price-display");
+        const GST_RATE = 0.18; // 18% GST
+
+        function updatePrices(showWithTax) {
+            Array.from(priceDisplays).forEach(display => {
+                const originalPrice = parseFloat(display.dataset.originalPrice);
+                if (showWithTax) {
+                    const priceWithTax = originalPrice * (1 + GST_RATE);
+                    display.innerHTML = `
+                        <span class="original-price">&#8377; ${originalPrice.toLocaleString("en-IN")}</span>
+                        <span class="price-with-tax">&#8377; ${priceWithTax.toLocaleString("en-IN")} / night</span>
+                    `;
+                } else {
+                    display.innerHTML = `&#8377; ${originalPrice.toLocaleString("en-IN")} / night`;
+                }
+            });
+        }
+
+        taxSwitch.addEventListener("change", (e) => {
+            updatePrices(e.target.checked);
+        });
+    </script>

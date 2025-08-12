@@ -1,0 +1,389 @@
+<style>
+    /* Navbar Styling */
+    .navbar {
+        background-color: rgba(255, 255, 255, 0.95);
+        box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        padding: 1rem 1.5rem;
+        position: relative;
+        z-index: 1000;
+        font-family: 'Poppins', sans-serif;
+        backdrop-filter: blur(10px);
+    }
+
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #1a1a1a;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        text-decoration: none;
+        letter-spacing: -0.5px;
+        position: relative;
+        padding: 0.5rem 1rem;
+        background: linear-gradient(135deg, #2c3e50, #3498db);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        transition: all 0.3s ease;
+    }
+
+    .navbar-brand i {
+        color: #3498db;
+        font-size: 1.8rem;
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        transition: all 0.3s ease;
+    }
+
+    .navbar-brand:hover {
+        transform: translateY(-1px);
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .navbar-brand:hover i {
+        transform: scale(1.1);
+    }
+
+    .navbar-brand::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 2px;
+        background: linear-gradient(135deg, #3498db, #2c3e50);
+        transition: width 0.3s ease;
+    }
+
+    .navbar-brand:hover::after {
+        width: 80%;
+    }
+
+    .nav-link-btn {
+        background-color: transparent;
+        color: #2c3e50;
+        font-weight: 500;
+        padding: 0.6rem 1.2rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        font-size: 0.95rem;
+        letter-spacing: 0.3px;
+    }
+
+    .nav-link-btn:hover {
+        background-color: #2c3e50;
+        color: #ffffff;
+        transform: translateY(-1px);
+    }
+
+    .btn-primary {
+        background-color: #2c3e50;
+        border: none;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: #1a252f;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(44, 62, 80, 0.15);
+    }
+
+    .btn-outline-primary {
+        border: 1px solid #2c3e50;
+        color: #2c3e50;
+        background-color: transparent;
+        padding: 0.7rem 1.5rem;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #2c3e50;
+        color: #ffffff;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(44, 62, 80, 0.15);
+    }
+
+    /* Toggler */
+    .navbar-toggler {
+        border: none;
+        padding: 0.5rem;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .navbar-toggler:focus {
+        outline: none;
+        box-shadow: none;
+    }
+
+    .navbar-toggler:hover {
+        background-color: #f8f9fa;
+    }
+
+    /* Navbar Collapse */
+    .navbar-collapse {
+        transition: all 0.3s ease;
+    }
+
+    .navbar-collapse.show {
+        background-color: white;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 1000;
+        padding: 5rem 2rem 2rem;
+        overflow-y: auto;
+    }
+
+    .navbar-collapse.show .navbar-nav {
+        width: 100%;
+        text-align: center;
+    }
+
+    .navbar-collapse.show .nav-link,
+    .navbar-collapse.show .btn {
+        opacity: 1;
+        transform: translateY(0);
+        margin: 0.5rem 0;
+        font-size: 1.2rem;
+        padding: 0.8rem 1.5rem;
+        width: 100%;
+        max-width: 300px;
+        display: inline-block;
+    }
+
+    .mobile-menu-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1000;
+        backdrop-filter: blur(5px);
+    }
+
+    .mobile-menu-overlay.show {
+        display: block;
+    }
+
+    .mobile-menu-close {
+        position: fixed;
+        top: 1rem;
+        right: 1rem;
+        background: none;
+        border: none;
+        color: #2c3e50;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.5rem;
+        z-index: 1001;
+        display: none;
+    }
+
+    .mobile-menu-close.show {
+        display: block;
+    }
+
+    /* Mobile Menu Animation */
+    @keyframes slideIn {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .navbar-collapse.show .nav-link,
+    .navbar-collapse.show .btn {
+        animation: slideIn 0.3s ease forwards;
+    }
+
+    .navbar-collapse.show .nav-link:nth-child(1) { animation-delay: 0.1s; }
+    .navbar-collapse.show .nav-link:nth-child(2) { animation-delay: 0.2s; }
+    .navbar-collapse.show .btn:nth-child(1) { animation-delay: 0.3s; }
+    .navbar-collapse.show .btn:nth-child(2) { animation-delay: 0.4s; }
+    .navbar-collapse.show .btn:nth-child(3) { animation-delay: 0.5s; }
+
+    /* Hide page content */
+    .page-content-hidden {
+        display: none !important;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .navbar {
+            padding: 0.75rem 1rem;
+        }
+
+        .navbar-brand {
+            font-size: 1.5rem;
+        }
+
+        .navbar .d-flex {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+        }
+
+        .search-in {
+            max-width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-link-btn {
+            width: 100%;
+            text-align: center;
+            padding: 0.8rem 1rem;
+            font-size: 1rem;
+        }
+
+        .navbar-nav {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 0.75rem;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.8rem;
+            text-align: center;
+            margin: 0.25rem 0;
+        }
+
+        .navbar-collapse.show .navbar-nav {
+            margin-top: 2rem;
+        }
+
+        .navbar-collapse.show .nav-link-btn {
+            width: 100%;
+            text-align: center;
+            margin: 0.5rem 0;
+        }
+
+        .navbar-collapse.show .btn {
+            width: 100%;
+            margin: 0.5rem 0;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .navbar-collapse.show {
+            position: static;
+            padding: 0;
+        }
+
+        .navbar-nav {
+            align-items: center;
+        }
+
+        .d-flex {
+            gap: 1.25rem;
+            align-items: center;
+        }
+    }
+</style>
+
+<nav class="navbar navbar-expand-md">
+    <div class="container">
+        <a class="navbar-brand" href="/">
+            <i class="fas fa-hotel"></i> StayAdda
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <button class="mobile-menu-close">
+            <i class="fas fa-times"></i>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav me-auto">
+                <a class="nav-link nav-link-btn" href="/">Home</a>
+                <a class="nav-link nav-link-btn" href="/listings">Explore</a>
+            </div>
+
+            <div class="navbar-nav">
+                <a class="nav-link btn btn-outline-primary" href="/listings/new">Add New</a>
+                <% if(typeof currUser === 'undefined' || !currUser) { %>
+                    <a class="nav-link btn btn-outline-primary" href="/signup">Sign Up</a>
+                    <a class="nav-link btn btn-primary" href="/login">Log In</a>
+                <% } else { %>
+                    <a class="nav-link btn btn-outline-primary" href="/bookings/my-bookings">
+                        <i class="fas fa-calendar-check me-1"></i>My Bookings
+                    </a>
+                    <a class="nav-link btn btn-outline-primary" href="/logout">Log Out</a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="mobile-menu-overlay"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toggler = document.querySelector('.navbar-toggler');
+        const closeBtn = document.querySelector('.mobile-menu-close');
+        const collapse = document.querySelector('#navbarNavAltMarkup');
+        const heroSection = document.querySelector('.hero-section');
+
+        function toggleMobileMenu(isOpen) {
+            if (isOpen) {
+                closeBtn.classList.add('show');
+                if (heroSection) {
+                    heroSection.style.opacity = '0.3';
+                }
+            } else {
+                closeBtn.classList.remove('show');
+                if (heroSection) {
+                    heroSection.style.opacity = '1';
+                }
+            }
+        }
+
+        toggler.addEventListener('click', () => {
+            const isExpanded = collapse.classList.contains('show');
+            toggleMobileMenu(!isExpanded);
+        });
+
+        closeBtn.addEventListener('click', () => {
+            collapse.classList.remove('show');
+            toggleMobileMenu(false);
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 768) {
+                collapse.classList.remove('show');
+                toggleMobileMenu(false);
+            }
+        });
+
+        collapse.addEventListener('hidden.bs.collapse', () => {
+            toggleMobileMenu(false);
+        });
+    });
+</script>

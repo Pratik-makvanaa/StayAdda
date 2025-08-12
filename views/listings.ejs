@@ -1,0 +1,28 @@
+<% layout("/layouts/boilerplate") %>
+
+<h2 class="mt-4">
+    <% if (searchQuery) { %>
+        Results for "<%= searchQuery %>"
+    <% } else { %>
+        All Listings
+    <% } %>
+</h2>
+
+<div class="row mt-3">
+    <% if (listings.length > 0) { %>
+        <% listings.forEach(listing => { %>
+            <div class="col-md-4 mb-3">
+                <div class="card">
+                    <img src="<%= listing.image.url %>" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= listing.title %></h5>
+                        <p class="card-text"><%= listing.location %>, <%= listing.country %></p>
+                        <p class="card-text">Price: ₹<%= listing.price %></p>
+                    </div>
+                </div>
+            </div>
+        <% }); %>
+    <% } else { %>
+        <p>No listings found for "<%= searchQuery %>"</p>
+    <% } %>
+</div>

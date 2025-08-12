@@ -1,0 +1,371 @@
+<%= layout("/layouts/boilerplate") %>
+
+<style>
+    /* Hero Section */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1; 
+            transform: translateY(0);
+        }
+    }
+
+    .hero-section {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+
+    .hero-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+  
+        
+    }
+
+    .hero-background.active {
+        opacity: 1;
+    }
+
+    .hero-background::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        animation: fadeInUp 1s ease-out;
+        width: 100%;
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+
+    .hero-content h1 {
+        font-size: 4rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .hero-content p {
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    .explore-btn {
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .explore-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        color: white;
+    }
+
+    /* Features Section */
+    .features-section {
+        padding: 4rem 0;
+        background-color: #f8f9fa;
+        width: 100%;
+    }
+
+    .feature-card {
+        text-align: center;
+        padding: 2rem;
+        background: white;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        height: 100%;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .feature-icon {
+        font-size: 2.5rem;
+        color: #3498db;
+        margin-bottom: 1rem;
+    }
+
+    /* Popular Destinations */
+    .destinations-section {
+        padding: 4rem 0;
+        width: 100%;
+    }
+
+    .destination-card {
+        position: relative;
+        border-radius: 1rem;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        height: 100%;
+    }
+
+    .destination-card img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .destination-card:hover img {
+        transform: scale(1.05);
+    }
+
+    .destination-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+        padding: 1.5rem;
+        color: white;
+    }
+
+    /* Testimonials */
+    .testimonials-section {
+        padding: 4rem 0;
+        background-color: #f8f9fa;
+        width: 100%;
+    }
+
+    .testimonial-card {
+        background: white;
+        padding: 2rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 2rem;
+        height: 100%;
+    }
+
+    .testimonial-text {
+        font-style: italic;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-author {
+        font-weight: 600;
+        color: #2c3e50;
+    }
+
+    /* Newsletter */
+    .newsletter-section {
+        padding: 4rem 0;
+        background: linear-gradient(135deg, #3498db, #2980b9);
+        color: white;
+        width: 100%;
+    }
+
+    .newsletter-form {
+        max-width: 500px;
+        margin: 0 auto;
+    }
+
+    .newsletter-input {
+        padding: 1rem;
+        border-radius: 50px;
+        border: none;
+        width: 100%;
+        margin-bottom: 1rem;
+    }
+
+    .newsletter-btn {
+        background: white;
+        color: #3498db;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        border: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .newsletter-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Container Overrides */
+    .container {
+        max-width: 100%;
+        padding: 0 2rem;
+    }
+
+    .row {
+        margin: 0;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .container {
+            padding: 0 1rem;
+        }
+        
+        .destination-card img {
+            height: 300px;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-background" style="background-image: url('/photo1.avif');" class="active"></div>
+    <div class="hero-background" style="background-image: url('/photo2.avif');"></div>
+    <div class="hero-content container-fluid px-0">
+        <h1>Find Local Hotels Near You</h1>
+        <p>Quick and affordable stays for your perfect trip</p>
+        <a href="/listings" class="explore-btn">Find Hotels Now</a>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const backgrounds = document.querySelectorAll('.hero-background');
+        let currentIndex = 0;
+        function changeBackground() {
+            backgrounds[currentIndex].classList.remove('active');
+            currentIndex = (currentIndex + 1) % backgrounds.length;
+            backgrounds[currentIndex].classList.add('active');
+        }
+
+        // Change background every 5 seconds
+        setInterval(changeBackground, 5000);
+    });
+</script>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <i class="fas fa-search-location feature-icon"></i>
+                    <h3>Find Nearby Hotels</h3>
+                    <p>Discover affordable hotels in your area with our easy-to-use search.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <i class="fas fa-bolt feature-icon"></i>
+                    <h3>Quick Booking</h3>
+                    <p>Book your stay in minutes with our simple and fast booking process.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="feature-card">
+                    <i class="fas fa-wallet feature-icon"></i>
+                    <h3>Best Prices</h3>
+                    <p>Get the best deals on local hotels with our competitive pricing.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Popular Destinations -->
+<section class="destinations-section">
+    <div class="container">
+        <h2 class="text-center mb-4">Popular Local Areas</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="destination-card">
+                    <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="City Center">
+                    <div class="destination-overlay">
+                        <h3>City Center</h3>
+                        <p>Hotels in the heart of the city</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="destination-card">
+                    <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Suburban Area">
+                    <div class="destination-overlay">
+                        <h3>Suburban Area</h3>
+                        <p>Peaceful stays away from the hustle</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="destination-card">
+                    <img src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" alt="Business District">
+                    <div class="destination-overlay">
+                        <h3>Business District</h3>
+                        <p>Convenient for business travelers</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials -->
+<section class="testimonials-section">
+    <div class="container">
+        <h2 class="text-center mb-4">What Our Guests Say</h2>
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Found a great hotel near my workplace at an amazing price. The booking process was super quick!"</p>
+                    <p class="testimonial-author">- Rahul Sharma</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Perfect for last-minute bookings. The local hotel options are great and affordable."</p>
+                    <p class="testimonial-author">- Priya Patel</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Easy to find hotels in my area with good prices. Will definitely use again!"</p>
+                    <p class="testimonial-author">- Amit Kumar</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

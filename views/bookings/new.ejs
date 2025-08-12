@@ -1,0 +1,134 @@
+<%= layout("/layouts/boilerplate") %>
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Book <%= listing.title %></h4>
+                </div>
+                <div class="card-body">
+                    <div class="listing-details mb-4">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img src="<%= listing.image.url %>" class="img-fluid rounded" alt="<%= listing.title %>">
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="mb-3">Property Details</h5>
+                                <p><i class="fas fa-map-marker-alt me-2"></i> <%= listing.location %>, <%= listing.country %></p>
+                                <p><i class="fas fa-tag me-2"></i> ₹<%= listing.price.toLocaleString("en-IN") %> per night</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <form action="/bookings" method="POST">
+                        <input type="hidden" name="listingId" value="<%= listing._id %>">
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="checkIn" class="form-label">Check-in Date</label>
+                                <input type="date" class="form-control" id="checkIn" name="checkIn" required>
+                                <small class="text-muted">Check-in time: 2:00 PM</small>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="checkOut" class="form-label">Check-out Date</label>
+                                <input type="date" class="form-control" id="checkOut" name="checkOut" required>
+                                <small class="text-muted">Check-out time: 11:00 AM</small>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="guests" class="form-label">Number of Guests</label>
+                            <input type="number" class="form-control" id="guests" name="guests" min="1" max="4" required>
+                            <small class="text-muted">Maximum occupancy: 4 guests</small>
+                        </div>
+
+                        <div class="booking-summary mb-4">
+                            <h5 class="border-bottom pb-2">Booking Summary</h5>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Price per night:</span>
+                                <span>₹<%= listing.price.toLocaleString("en-IN") %></span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Number of nights:</span>
+                                <span id="nights">0</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal:</span>
+                                <span id="subtotal">₹0</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>GST (18%):</span>
+                                <span id="gst">₹0</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between fw-bold">
+                                <span>Total Amount:</span>
+                                <span id="totalAmount">₹0</span>
+                            </div>
+                        </div>
+
+                        <div class="booking-policy mb-4">
+                            <h5 class="border-bottom pb-2">Booking Policy</h5>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-check-circle text-success me-2"></i> Free cancellation up to 24 hours before check-in</li>
+                                <li><i class="fas fa-check-circle text-success me-2"></i> Full refund for cancellations made 24 hours before check-in</li>
+                                <li><i class="fas fa-check-circle text-success me-2"></i> No refund for cancellations made less than 24 hours before check-in</li>
+                            </ul>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">
+                            <i class="fas fa-calendar-check me-2"></i>Confirm Booking
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkIn = document.getElementById('checkIn');
+        const checkOut = document.getElementById('checkOut');
+        const nights = document.getElementById('nights');
+        const subtotal = document.getElementById('subtotal');
+        const gst = document.getElementById('gst');
+        const totalAmount = document.getElementById('totalAmount');
+        const pricePerNight = <%= listing.price %>;
+        const GST_RATE = 0.18;
+
+        // Set minimum date to today
+        const today = new Date().toISOString().split('T')[0];
+        checkIn.min = today;
+        checkOut.min = today;
+
+        // Update total amount when dates change
+        function updateTotal() {
+            if (checkIn.value && checkOut.value) {
+                const start = new Date(checkIn.value);
+                const end = new Date(checkOut.value);
+                const diffTime = Math.abs(end - start);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                
+                if (diffDays < 1) {
+                    alert('Check-out date must be after check-in date');
+                    checkOut.value = '';
+                    return;
+                }
+
+                const subtotalAmount = diffDays * pricePerNight;
+                const gstAmount = subtotalAmount * GST_RATE;
+                const total = subtotalAmount + gstAmount;
+
+                nights.textContent = diffDays;
+                subtotal.textContent = `₹${subtotalAmount.toLocaleString("en-IN")}`;
+                gst.textContent = `₹${gstAmount.toLocaleString("en-IN")}`;
+                totalAmount.textContent = `₹${total.toLocaleString("en-IN")}`;
+            }
+        }
+
+        checkIn.addEventListener('change', updateTotal);
+        checkOut.addEventListener('change', updateTotal);
+    });
+</script> 

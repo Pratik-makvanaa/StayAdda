@@ -1,0 +1,277 @@
+<%= layout("/layouts/boilerplate") %>
+
+<style>
+    /* Form Container */
+    .listing-form-container {
+        background: linear-gradient(145deg, #ffffff, #f8fafc);
+        padding: 2.5rem;
+        border-radius: 16px;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+        margin: 4rem auto;
+        max-width: 700px;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+        position: relative;
+        overflow: hidden;
+    }
+
+    /* Subtle decorative element */
+    .listing-form-container::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(90deg, #3b82f6, #10b981);
+        border-radius: 16px 16px 0 0;
+    }
+
+    /* Form Heading */
+    .listing-form-container h2 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #1e293b;
+        margin-bottom: 2rem;
+        text-align: center;
+        letter-spacing: -0.025em;
+        background: linear-gradient(to right, #3b82f6, #1e293b);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    /* Form Labels */
+    .form-label {
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: #475569;
+        margin-bottom: 0.75rem;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        transition: color 0.2s ease;
+    }
+
+    .form-label::after {
+        content: '*';
+        color: #ef4444;
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
+
+    .form-label.optional::after {
+        content: none;
+    }
+
+    /* Form Inputs */
+    .form-control {
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 0.85rem 1.25rem;
+        font-size: 0.95rem;
+        background-color: #f8fafc;
+        transition: all 0.3s ease;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    .form-control:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15), inset 0 1px 2px rgba(0, 0, 0, 0.05);
+        background-color: #ffffff;
+        outline: none;
+    }
+
+    .form-control::placeholder {
+        color: #94a3b8;
+        font-style: italic;
+    }
+
+    /* Textarea */
+    textarea.form-control {
+        min-height: 140px;
+        resize: vertical;
+    }
+
+    /* File Input */
+    .form-control[type="file"] {
+        padding: 0.65rem 1.25rem;
+        cursor: pointer;
+    }
+
+    .form-control[type="file"]::-webkit-file-upload-button {
+        background: #e2e8f0;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .form-control[type="file"]::-webkit-file-upload-button:hover {
+        background: #d1d5db;
+    }
+
+    /* Number Input */
+    input[type="number"] {
+        -moz-appearance: textfield;
+    }
+
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    /* Submit Button */
+    .btn-primary {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        border: none;
+        padding: 0.85rem 2.5rem;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: #ffffff;
+        box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        transition: all 0.3s ease;
+        display: block;
+        margin: 2rem auto 0;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #2563eb, #1e40af);
+        box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+        transform: translateY(-2px);
+    }
+
+    .btn-primary::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: rgba(255, 255, 255, 0.2);
+        transition: left 0.3s ease;
+    }
+
+    .btn-primary:hover::after {
+        left: 100%;
+    }
+
+    /* Validation Feedback */
+    .invalid-feedback {
+        font-size: 0.85rem;
+        color: #ef4444;
+        margin-top: 0.25rem;
+    }
+
+    .form-control.is-invalid {
+        border-color: #ef4444;
+        background-color: #fef2f2;
+    }
+
+    /* Responsive Adjustments */
+    @media (max-width: 768px) {
+        .listing-form-container {
+            padding: 1.75rem;
+            margin: 1.5rem 1rem;
+        }
+
+        .listing-form-container h2 {
+            font-size: 1.75rem;
+        }
+
+        .form-control {
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            padding: 0.75rem 2rem;
+            font-size: 0.95rem;
+        }
+
+        .form-label {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .listing-form-container {
+            padding: 1.25rem;
+            margin: 1rem 0.5rem;
+            border-radius: 12px;
+        }
+
+        .listing-form-container h2 {
+            font-size: 1.5rem;
+        }
+
+        .form-control {
+            font-size: 0.85rem;
+            padding: 0.65rem 0.85rem;
+        }
+
+        .form-label {
+            font-size: 0.85rem;
+        }
+
+        .btn-primary {
+            padding: 0.65rem 1.5rem;
+            font-size: 0.9rem;
+            max-width: 100%;
+        }
+
+        .row {
+            margin: 0;
+        }
+    }
+</style>
+
+<!-- Create Listing Form -->
+<div class="row mt-5">
+    <div class="col-12 col-md-8 offset-md-2 listing-form-container">
+        <h2>Create a New Listing</h2>
+        <form method="POST" action="/listings" enctype="multipart/form-data" novalidate class="needs-validation">
+            <div class="mb-3">
+                <label for="title" class="form-label">Title</label>
+                <input id="title" name="listing[title]" placeholder="e.g., Cozy Beach Cottage" type="text" class="form-control" required />
+                <div class="invalid-feedback">Please enter a title.</div>
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea id="description" name="listing[description]" placeholder="Describe your listing..." class="form-control" required></textarea>
+                <div class="invalid-feedback">Please enter a description.</div>
+            </div>
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload Image</label>
+                <input id="image" name="listing[image]" type="file" class="form-control" required />
+                <div class="invalid-feedback">Please upload an image.</div>
+            </div>
+            <div class="row">
+                <div class="mb-3 col-md-4">
+                    <label for="price" class="form-label optional">Price</label>
+                    <input id="price" name="listing[price]" placeholder="e.g., 1500" type="number" class="form-control" />
+                    <div class="invalid-feedback">Please enter a valid price.</div>
+                </div>
+                <div class="mb-3 col-md-8">
+                    <label for="country" class="form-label">Country</label>
+                    <input id="country" name="listing[country]" placeholder="e.g., India" type="text" class="form-control" required />
+                    <div class="invalid-feedback">Please enter a country.</div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label for="location" class="form-label optional">Location</label>
+                <input id="location" name="listing[location]" placeholder="e.g., Goa" type="text" class="form-control" />
+                <div class="invalid-feedback">Please enter a location.</div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add Listing</button>
+        </form>
+    </div>
+</div>
+```
