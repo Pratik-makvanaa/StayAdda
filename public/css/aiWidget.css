@@ -1,0 +1,322 @@
+/* AI Travel Assistant Floating Button & Drawer Styles */
+
+.ai-fab-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 9999;
+    background: linear-gradient(135deg, #fe424d 0%, #d92434 100%);
+    color: #ffffff;
+    border: none;
+    border-radius: 50px;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 8px 24px rgba(254, 66, 77, 0.4);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.ai-fab-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 12px 28px rgba(254, 66, 77, 0.5);
+    color: #fff;
+}
+
+.ai-fab-badge {
+    font-size: 14px;
+    letter-spacing: 0.3px;
+}
+
+/* Chat Drawer Container */
+#ai-widget-container {
+    position: fixed;
+    bottom: 90px;
+    right: 24px;
+    width: 400px;
+    max-width: calc(100vw - 32px);
+    height: 580px;
+    max-height: calc(100vh - 120px);
+    background: #ffffff;
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+#ai-widget-container.ai-widget-hidden {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(20px) scale(0.95);
+}
+
+/* Header */
+.ai-widget-header {
+    background: #222222;
+    color: #ffffff;
+    padding: 14px 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ai-widget-header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ai-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #fe424d, #ff6b75);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    color: #fff;
+}
+
+.ai-status-online {
+    color: #4cd964;
+    font-size: 11px;
+}
+
+.ai-status-online i {
+    font-size: 8px;
+    margin-right: 3px;
+}
+
+.ai-widget-header-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.ai-icon-btn {
+    background: transparent;
+    border: none;
+    color: #b0b0b0;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 50%;
+    transition: color 0.2s;
+}
+
+.ai-icon-btn:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Suggestion Chips */
+.ai-suggestions-bar {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+.ai-suggestions-bar::-webkit-scrollbar {
+    display: none;
+}
+
+.ai-chip {
+    background: #ffffff;
+    border: 1px solid #dee2e6;
+    border-radius: 16px;
+    padding: 5px 12px;
+    font-size: 12px;
+    color: #495057;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.ai-chip:hover {
+    background: #fe424d;
+    color: #ffffff;
+    border-color: #fe424d;
+}
+
+/* Chat Body */
+.ai-chat-body {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: #fcfcfc;
+}
+
+.ai-message {
+    display: flex;
+    max-width: 88%;
+}
+
+.ai-message-user {
+    align-self: flex-end;
+}
+
+.ai-message-user .ai-message-content {
+    background: #fe424d;
+    color: #ffffff;
+    border-radius: 18px 18px 2px 18px;
+}
+
+.ai-message-bot {
+    align-self: flex-start;
+}
+
+.ai-message-bot .ai-message-content {
+    background: #ffffff;
+    color: #212529;
+    border: 1px solid #e9ecef;
+    border-radius: 18px 18px 18px 2px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+}
+
+.ai-message-content {
+    padding: 12px 16px;
+    font-size: 13.5px;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+/* Recommended Hotel Cards in Chat */
+.ai-hotels-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.ai-hotel-card {
+    display: flex;
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.ai-hotel-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    color: inherit;
+}
+
+.ai-hotel-thumb {
+    width: 90px;
+    height: 80px;
+    object-fit: cover;
+    background: #e9ecef;
+}
+
+.ai-hotel-info {
+    padding: 8px 12px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.ai-hotel-title {
+    font-weight: 600;
+    font-size: 13px;
+    margin-bottom: 2px;
+    color: #222;
+    line-height: 1.2;
+}
+
+.ai-hotel-location {
+    font-size: 11px;
+    color: #6c757d;
+    margin-bottom: 4px;
+}
+
+.ai-hotel-price {
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #fe424d;
+}
+
+/* Typing Indicator */
+.ai-typing-indicator {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 16px;
+    font-size: 12px;
+    color: #6c757d;
+}
+
+.ai-typing-indicator .dot {
+    width: 6px;
+    height: 6px;
+    background: #fe424d;
+    border-radius: 50%;
+    animation: aiBounce 1.4s infinite ease-in-out both;
+}
+
+.ai-typing-indicator .dot:nth-child(1) { animation-delay: -0.32s; }
+.ai-typing-indicator .dot:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes aiBounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+/* Footer Input */
+.ai-widget-footer {
+    display: flex;
+    padding: 12px;
+    background: #ffffff;
+    border-top: 1px solid #e9ecef;
+    gap: 8px;
+}
+
+.ai-widget-footer input {
+    flex: 1;
+    border: 1px solid #ced4da;
+    border-radius: 25px;
+    padding: 8px 16px;
+    font-size: 13.5px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.ai-widget-footer input:focus {
+    border-color: #fe424d;
+}
+
+.ai-widget-footer button {
+    background: #fe424d;
+    color: #ffffff;
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.ai-widget-footer button:hover {
+    background: #d92434;
+}

@@ -1,0 +1,70 @@
+<!-- AI Assistant Floating Action Button -->
+<button id="ai-widget-toggle" class="ai-fab-btn" title="Ask AI Travel Assistant">
+    <i class="fa-solid fa-wand-magic-sparkles"></i>
+    <span class="ai-fab-badge">AI Assist</span>
+</button>
+
+<!-- AI Assistant Drawer Window -->
+<div id="ai-widget-container" class="ai-widget-hidden">
+    <div class="ai-widget-header">
+        <div class="ai-widget-header-title">
+            <div class="ai-avatar">
+                <i class="fa-solid fa-robot"></i>
+            </div>
+            <div>
+                <h6 class="m-0 font-weight-bold">StayAdda AI Concierge</h6>
+                <small class="ai-status-online"><i class="fa-solid fa-circle"></i> Powered by Gemini & MongoDB Context</small>
+            </div>
+        </div>
+        <div class="ai-widget-header-actions">
+            <button id="ai-reset-btn" class="ai-icon-btn" title="Clear conversation memory">
+                <i class="fa-solid fa-rotate-right"></i>
+            </button>
+            <button id="ai-close-btn" class="ai-icon-btn" title="Close chat">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Quick Suggestion Chips -->
+    <div class="ai-suggestions-bar">
+        <span class="ai-chip" data-prompt="Show hotels in Goa under ₹3000 with pool">🏖️ Goa under ₹3000</span>
+        <span class="ai-chip" data-prompt="Suggest best hotels for honeymoon couples">💖 Honeymoon Stays</span>
+        <span class="ai-chip" data-prompt="Which hotels are best for family trips?">👨‍👩‍👧‍👦 Family Friendly</span>
+        <span class="ai-chip" data-prompt="Show hotels with mountain view">🏔️ Mountain View</span>
+    </div>
+
+    <!-- Chat Messages Container -->
+    <div id="ai-chat-messages" class="ai-chat-body">
+        <div class="ai-message ai-message-bot">
+            <div class="ai-message-content">
+                👋 Hello! I am your <strong>StayAdda AI Travel Assistant</strong>. 
+                I can help you search hotels by budget, location, amenities, or suggest travel itineraries based on our verified MongoDB database!
+                <br><br>
+                <em>Try asking: "I want a hotel in Goa under ₹3000 with a swimming pool."</em>
+            </div>
+        </div>
+    </div>
+
+    <!-- Typing Loader Indicator -->
+    <div id="ai-typing-indicator" class="ai-typing-indicator d-none">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <span>Searching database & generating recommendations...</span>
+    </div>
+
+    <!-- Input Form -->
+    <form id="ai-chat-form" class="ai-widget-footer">
+        <input 
+            type="text" 
+            id="ai-user-input" 
+            placeholder="Ask about hotels, budget, amenities or trips..." 
+            autocomplete="off" 
+            required 
+        />
+        <button type="submit" id="ai-send-btn">
+            <i class="fa-solid fa-paper-plane"></i>
+        </button>
+    </form>
+</div>
