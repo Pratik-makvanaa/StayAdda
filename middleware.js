@@ -1,7 +1,7 @@
 const Listing = require("./models/listing.js");
 const Review = require("./models/review.js");
 const ExpressError = require("./utils/ExpressError.js");
-const { listingSchema, reviewSchema } = require("./schema.js");
+const { listingSchema, reviewSchema, tripPlannerSchema } = require("./schema.js");
 
 // Check if user is logged in
 module.exports.isLoggedIn = (req, res, next) => {
@@ -68,5 +68,19 @@ module.exports.validateReview = (req, res, next) => {
         const errMsg = error.details.map((el) => el.message).join(", ");
         throw new ExpressError(400, errMsg);
     }
+    next();
+};
+
+// Validate trip planner input (JSON API)
+module.exports.validateTripPlanner = (req, res, next) => {
+    const { error, value } = tripPlannerSchema.validate(req.body);
+    if (error) {
+        return res.status(400).json({
+            success: false,
+            error: "VALIDATION_ERROR",
+            message: error.details.map((el) => el.message).join(", "),
+        });
+    }
+    req.validatedTripInput = value;
     next();
 };

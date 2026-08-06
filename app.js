@@ -22,6 +22,7 @@ const userRouter = require("./routes/user.js");
 const bookingRouter = require("./routes/bookings.js");
 const listingsRouter = require("./routes/listings.js");
 const aiRouter = require("./routes/ai.js");
+const tripPlannerRouter = require("./routes/tripPlanner.js");
 
 const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/stayadda";
 
@@ -91,6 +92,7 @@ app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
 app.use("/bookings", bookingRouter);
 app.use("/ai", aiRouter);
+app.use("/trip-planner", tripPlannerRouter);
 
 // 404 handler
 app.all("*", (req, res, next) => {

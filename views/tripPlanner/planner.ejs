@@ -1,0 +1,91 @@
+<%= layout("/layouts/boilerplate") %>
+
+<link rel="stylesheet" href="/css/tripPlanner.css">
+
+<div class="trip-planner-page">
+    <div class="trip-planner-hero">
+        <h1><i class="fas fa-route"></i> AI Trip Planner</h1>
+        <p>Tell us about your dream trip and we'll craft a personalized day-by-day itinerary with real hotels and nearby attractions.</p>
+    </div>
+
+    <div class="planner-form-card">
+        <form id="tripPlannerForm">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="destination" class="form-label">Destination</label>
+                    <input type="text" class="form-control" id="destination" name="destination"
+                        placeholder="e.g. Goa, Mumbai, Jaipur" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="budget" class="form-label">Total Budget (₹)</label>
+                    <input type="number" class="form-control" id="budget" name="budget"
+                        placeholder="e.g. 50000" min="1000" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="days" class="form-label">Number of Days</label>
+                    <input type="number" class="form-control" id="days" name="days"
+                        placeholder="e.g. 3" min="1" max="14" required>
+                </div>
+                <div class="col-md-4">
+                    <label for="travelers" class="form-label">Travelers</label>
+                    <input type="number" class="form-control" id="travelers" name="travelers"
+                        placeholder="e.g. 2" min="1" max="20" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label">Travel Type</label>
+                    <div class="travel-type-grid">
+                        <% travelTypes.forEach(function(type) { %>
+                            <input type="radio" class="travel-type-radio" name="travelType"
+                                id="type-<%= type %>" value="<%= type %>" <%= type === "Couple" ? "checked" : "" %> required>
+                            <label class="travel-type-label" for="type-<%= type %>">
+                                <% if (type === "Solo") { %><i class="fas fa-user"></i>
+                                <% } else if (type === "Couple") { %><i class="fas fa-heart"></i>
+                                <% } else if (type === "Family") { %><i class="fas fa-users"></i>
+                                <% } else { %><i class="fas fa-user-friends"></i><% } %>
+                                <%= type %>
+                            </label>
+                        <% }) %>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <label class="form-label">Interests</label>
+                    <div class="interest-grid">
+                        <% interests.forEach(function(interest) { %>
+                            <input type="checkbox" class="interest-chip" name="interests"
+                                id="interest-<%= interest %>" value="<%= interest %>">
+                            <label class="interest-chip-label" for="interest-<%= interest %>">
+                                <% if (interest === "Adventure") { %><i class="fas fa-hiking"></i>
+                                <% } else if (interest === "Nature") { %><i class="fas fa-tree"></i>
+                                <% } else if (interest === "Food") { %><i class="fas fa-utensils"></i>
+                                <% } else if (interest === "Beaches") { %><i class="fas fa-umbrella-beach"></i>
+                                <% } else if (interest === "Heritage") { %><i class="fas fa-landmark"></i>
+                                <% } else if (interest === "Shopping") { %><i class="fas fa-shopping-bag"></i>
+                                <% } else { %><i class="fas fa-moon"></i><% } %>
+                                <%= interest %>
+                            </label>
+                        <% }) %>
+                    </div>
+                </div>
+                <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-generate" id="generateBtn">
+                        <i class="fas fa-magic me-2"></i>Generate Itinerary
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="alert alert-danger planner-error" id="plannerError" role="alert"></div>
+    <div class="planner-warning" id="plannerWarning"></div>
+
+    <div class="planner-loading" id="plannerLoading">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Crafting your personalized itinerary... This may take a moment.</p>
+    </div>
+
+    <div class="planner-results" id="plannerResults"></div>
+</div>
+
+<script src="/js/tripPlanner.js"></script>

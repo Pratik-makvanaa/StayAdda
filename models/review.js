@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const reviewSchema = new Schema(
     {
+        title: {
+            type: String,
+            trim: true,
+            default: "",
+        },
         comment: {
             type: String,
             required: true,
@@ -12,6 +17,10 @@ const reviewSchema = new Schema(
             min: 1,
             max: 5,
             required: true,
+        },
+        helpfulCount: {
+            type: Number,
+            default: 0,
         },
         author: {
             type: Schema.Types.ObjectId,
@@ -23,3 +32,4 @@ const reviewSchema = new Schema(
 
 const Review = mongoose.model("Review", reviewSchema);
 module.exports = Review;
+

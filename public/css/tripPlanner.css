@@ -1,0 +1,462 @@
+/* Trip Planner Page Styles */
+
+.trip-planner-page {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+    font-family: 'Poppins', sans-serif;
+}
+
+.trip-planner-hero {
+    text-align: center;
+    margin-bottom: 2.5rem;
+}
+
+.trip-planner-hero h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+}
+
+.trip-planner-hero h1 i {
+    color: #3498db;
+    margin-right: 0.5rem;
+}
+
+.trip-planner-hero p {
+    color: #6c757d;
+    font-size: 1.05rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Form Card */
+.planner-form-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.planner-form-card .form-label {
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 0.9rem;
+}
+
+.planner-form-card .form-control,
+.planner-form-card .form-select {
+    border-radius: 10px;
+    border: 1.5px solid #e0e0e0;
+    padding: 0.65rem 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.planner-form-card .form-control:focus,
+.planner-form-card .form-select:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+/* Interest chips */
+.interest-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.interest-chip {
+    display: none;
+}
+
+.interest-chip-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.5rem 1rem;
+    border-radius: 50px;
+    border: 1.5px solid #e0e0e0;
+    background: #fafafa;
+    color: #555;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+    user-select: none;
+}
+
+.interest-chip:checked + .interest-chip-label {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: #fff;
+    border-color: transparent;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.3);
+}
+
+.interest-chip-label:hover {
+    border-color: #3498db;
+}
+
+/* Travel type pills */
+.travel-type-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.travel-type-radio {
+    display: none;
+}
+
+.travel-type-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.2rem;
+    border-radius: 10px;
+    border: 1.5px solid #e0e0e0;
+    background: #fafafa;
+    color: #555;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.travel-type-radio:checked + .travel-type-label {
+    background: #2c3e50;
+    color: #fff;
+    border-color: #2c3e50;
+}
+
+/* Generate button */
+.btn-generate {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: #fff;
+    border: none;
+    padding: 0.85rem 2.5rem;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 1.05rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 100%;
+}
+
+.btn-generate:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.35);
+    color: #fff;
+}
+
+.btn-generate:disabled {
+    opacity: 0.7;
+    transform: none;
+    cursor: not-allowed;
+}
+
+/* Loading */
+.planner-loading {
+    text-align: center;
+    padding: 3rem 1rem;
+    display: none;
+}
+
+.planner-loading.active {
+    display: block;
+}
+
+.planner-loading .spinner-border {
+    width: 3rem;
+    height: 3rem;
+    color: #3498db;
+}
+
+.planner-loading p {
+    margin-top: 1rem;
+    color: #6c757d;
+    font-size: 1rem;
+}
+
+/* Error alert */
+.planner-error {
+    display: none;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+}
+
+.planner-error.active {
+    display: block;
+}
+
+/* Warning alert */
+.planner-warning {
+    display: none;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    background: #fff8e1;
+    border: 1px solid #ffe082;
+    color: #795548;
+    padding: 0.85rem 1.2rem;
+    font-size: 0.9rem;
+}
+
+.planner-warning.active {
+    display: block;
+}
+
+/* Results section */
+.planner-results {
+    display: none;
+}
+
+.planner-results.active {
+    display: block;
+    animation: fadeInUp 0.5s ease;
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Recommended hotel banner */
+.recommended-hotel {
+    background: linear-gradient(135deg, #2c3e50, #3498db);
+    color: #fff;
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.recommended-hotel h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+
+.recommended-hotel p {
+    font-size: 0.9rem;
+    opacity: 0.9;
+    margin: 0;
+}
+
+.recommended-hotel .btn-view-hotel {
+    background: rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border: 1.5px solid rgba(255, 255, 255, 0.5);
+    padding: 0.5rem 1.2rem;
+    border-radius: 8px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.recommended-hotel .btn-view-hotel:hover {
+    background: rgba(255, 255, 255, 0.35);
+    color: #fff;
+}
+
+/* Budget summary */
+.budget-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.budget-item {
+    background: #fff;
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.budget-item .label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.budget-item .amount {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-top: 0.25rem;
+}
+
+.budget-item.total .amount {
+    color: #3498db;
+}
+
+/* Day cards */
+.day-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.day-card {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+    overflow: hidden;
+    transition: transform 0.2s;
+}
+
+.day-card:hover {
+    transform: translateY(-2px);
+}
+
+.day-card-header {
+    background: linear-gradient(135deg, #3498db, #2c3e50);
+    color: #fff;
+    padding: 1rem 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.day-card-header h4 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+.day-card-header .day-cost {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 0.3rem 0.8rem;
+    border-radius: 50px;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+
+.day-card-body {
+    padding: 1.5rem;
+}
+
+.day-section {
+    margin-bottom: 1.25rem;
+}
+
+.day-section:last-child {
+    margin-bottom: 0;
+}
+
+.day-section-title {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #3498db;
+    margin-bottom: 0.5rem;
+}
+
+.day-section-title i {
+    margin-right: 0.4rem;
+}
+
+.day-section-content {
+    color: #444;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.place-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    padding: 0.4rem 0;
+}
+
+.place-item .place-time {
+    font-size: 0.8rem;
+    color: #3498db;
+    font-weight: 600;
+    min-width: 70px;
+}
+
+.place-item .place-name {
+    font-weight: 500;
+}
+
+.place-item .place-duration {
+    font-size: 0.8rem;
+    color: #999;
+}
+
+.day-tips {
+    background: #f0f7ff;
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    margin-top: 0.5rem;
+}
+
+.day-tips ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+.day-tips li {
+    margin-bottom: 0.25rem;
+}
+
+/* Travel tips */
+.travel-tips-section {
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.07);
+    padding: 1.5rem 2rem;
+    margin-top: 2rem;
+}
+
+.travel-tips-section h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 1rem;
+}
+
+.travel-tips-section h3 i {
+    color: #3498db;
+    margin-right: 0.5rem;
+}
+
+.travel-tips-section ul {
+    margin: 0;
+    padding-left: 1.2rem;
+    color: #555;
+    line-height: 1.8;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .trip-planner-hero h1 {
+        font-size: 1.8rem;
+    }
+
+    .planner-form-card {
+        padding: 1.25rem;
+    }
+
+    .recommended-hotel {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .day-card-header {
+        flex-direction: column;
+        gap: 0.5rem;
+        text-align: center;
+    }
+}
