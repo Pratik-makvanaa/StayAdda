@@ -16,7 +16,7 @@ router.get('/new/:id', isLoggedIn, async (req, res) => {
     } catch (err) {
         req.flash('error', 'Something went wrong');
         res.redirect('/listings');
-    }
+    }``
 });
 
 // Create booking

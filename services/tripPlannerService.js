@@ -26,6 +26,7 @@ async function findMatchingHotels({ destination, budget, days, travelType }) {
         price: { $lte: perNightBudget },
         availableRooms: { $gt: 0 },
     };
+    
 
     const dbTravelType = TRAVEL_TYPE_MAP[travelType];
     if (dbTravelType) {
