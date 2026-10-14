@@ -5,19 +5,24 @@ const Listing = require('../models/listing');
 const { isLoggedIn } = require('../middleware');
 
 // Show booking form
+
 router.get('/new/:id', isLoggedIn, async (req, res) => {
     try {
         const listing = await Listing.findById(req.params.id);
+
         if (!listing) {
             req.flash('error', 'Listing not found');
             return res.redirect('/listings');
         }
+
         res.render('bookings/new', { listing });
     } catch (err) {
+        console.error('Error loading booking form:', err);
         req.flash('error', 'Something went wrong');
-        res.redirect('/listings');
-    }``
+        return res.redirect('/listings');
+    }
 });
+
 
 // Create booking
 router.post('/', isLoggedIn, async (req, res) => {
