@@ -1,138 +1,451 @@
 <% layout("/layouts/boilerplate") %>
 
 <style>
-    #filters {
+    /* Explore Page Styles */
+    .explore-hero {
+        background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+        color: white;
+        padding: 3rem 2rem;
+        border-radius: 20px;
+        margin-bottom: 2.5rem;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .explore-hero::after {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 350px;
+        height: 350px;
+        background: radial-gradient(circle, rgba(2, 132, 199, 0.25) 0%, transparent 70%);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .explore-hero h1 {
+        color: #ffffff;
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        letter-spacing: -0.02em;
+    }
+
+    .explore-hero p {
+        color: #94a3b8;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+        max-width: 600px;
+    }
+
+    /* Modern Search Bar */
+    .explore-search-bar {
+        background: #ffffff;
+        padding: 0.5rem;
+        border-radius: 50px;
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        max-width: 750px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .explore-search-bar .search-icon {
+        color: #0284c7;
+        font-size: 1.2rem;
+        padding-left: 1.25rem;
+    }
+
+    .explore-search-bar input {
+        border: none;
+        outline: none;
+        box-shadow: none;
+        font-size: 1rem;
+        color: #1e293b;
+        padding: 0.75rem 0.5rem;
+        width: 100%;
+        background: transparent;
+    }
+
+    .explore-search-bar input::placeholder {
+        color: #94a3b8;
+    }
+
+    .explore-search-bar .btn-search {
+        background: linear-gradient(135deg, #0284c7, #0369a1);
+        color: white;
+        border: none;
+        padding: 0.8rem 2rem;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.95rem;
+        letter-spacing: 0.2px;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        white-space: nowrap;
+        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    }
+
+    .explore-search-bar .btn-search:hover {
+        background: linear-gradient(135deg, #0369a1, #075985);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 18px rgba(2, 132, 199, 0.4);
+        color: white;
+    }
+
+    /* Quick City Filter Pills */
+    .city-pills {
         display: flex;
         flex-wrap: wrap;
-        align-items: center;
-        }
-    .filter{
-        text-align: center;
-        margin-right: 3rem;
-        margin-top: 2rem;
-        color: rgb(0, 0, 0);
-    }
-    .filter:hover {
-        opacity: 3;
-        cursor: pointer;
-        color: rgb(97, 97, 97);
-    }
-    .filter p{
-        font-size: 0.8rem;
+        gap: 0.5rem;
+        margin-top: 1.25rem;
     }
 
-    .tax-toggle {
-        border: 1px solid black;
-        border-radius: 1rem;
-        height: 3.5rem;
-        padding: 1rem;
-        margin-left: 3rem;
+    .city-pill {
+        background: rgba(255, 255, 255, 0.12);
+        color: #e2e8f0;
+        padding: 0.35rem 0.9rem;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .city-pill:hover {
+        background: #0284c7;
+        color: #ffffff;
+        transform: translateY(-2px);
+        border-color: #0284c7;
+    }
+
+    /* Results Header */
+    .results-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .results-count {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #0f172a;
+    }
+
+    .results-count span {
+        color: #0284c7;
+    }
+
+    .btn-clear-search {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.45rem 1rem;
+        border-radius: 50px;
+        background: #f1f5f9;
+        color: #475569;
+        font-size: 0.88rem;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .btn-clear-search:hover {
+        background: #e2e8f0;
+        color: #0f172a;
+    }
+
+    /* Modern Hotel Card */
+    .hotel-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+
+    .hotel-card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 16px 30px -4px rgba(0, 0, 0, 0.12);
+        border-color: #cbd5e1;
+    }
+
+    .hotel-card-image-wrap {
+        position: relative;
+        width: 100%;
+        height: 240px;
+        overflow: hidden;
+        background: #f1f5f9;
+    }
+
+    .hotel-card-image-wrap img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+
+    .hotel-card:hover .hotel-card-image-wrap img {
+        transform: scale(1.05);
+    }
+
+    .hotel-category-badge {
+        position: absolute;
+        top: 1rem;
+        left: 1rem;
+        background: rgba(15, 23, 42, 0.75);
+        color: #ffffff;
+        padding: 0.35rem 0.8rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        text-transform: uppercase;
+        backdrop-filter: blur(8px);
+    }
+
+    .hotel-rating-badge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: #ffffff;
+        color: #0f172a;
+        padding: 0.35rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.8rem;
+        font-weight: 700;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
         display: flex;
         align-items: center;
+        gap: 0.3rem;
     }
 
-    .price-with-tax {
-        color: #2c3e50;
-        font-weight: 500;
+    .hotel-rating-badge i {
+        color: #f59e0b;
+        font-size: 0.85rem;
     }
 
-    .original-price {
-        text-decoration: line-through;
-        color: #666;
-        font-size: 0.9em;
-        margin-right: 0.5rem;
+    .hotel-card-body {
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+    }
+
+    .hotel-card-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 0.5rem;
+        line-height: 1.35;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .hotel-card-location {
+        color: #64748b;
+        font-size: 0.9rem;
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .hotel-card-location i {
+        color: #0284c7;
+    }
+
+    .hotel-card-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 1rem;
+        border-top: 1px solid #f1f5f9;
+        margin-top: auto;
+    }
+
+    .hotel-price {
+        font-size: 1.3rem;
+        font-weight: 700;
+        color: #0f172a;
+    }
+
+    .hotel-price span {
+        font-size: 0.85rem;
+        font-weight: 400;
+        color: #64748b;
+    }
+
+    .btn-view-hotel {
+        background: #0284c7;
+        color: #ffffff;
+        padding: 0.55rem 1.25rem;
+        border-radius: 10px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-decoration: none;
+        transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+    }
+
+    .btn-view-hotel:hover {
+        background: #0369a1;
+        color: #ffffff;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .explore-hero {
+            padding: 2rem 1.25rem;
+            border-radius: 16px;
+        }
+
+        .explore-hero h1 {
+            font-size: 1.85rem;
+        }
+
+        .explore-search-bar {
+            flex-direction: column;
+            border-radius: 16px;
+            padding: 0.75rem;
+        }
+
+        .explore-search-bar .search-icon {
+            display: none;
+        }
+
+        .explore-search-bar .btn-search {
+            width: 100%;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .hotel-card-image-wrap {
+            height: 200px;
+        }
     }
 </style>
-    <div id="filters">
-        <div class="filter">
-            <div><i class="fa-solid fa-fire"></i></div>
-            <p>Trending</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-bed"></i></div>
-            <p>Rooms</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-umbrella-beach"></i></div>
-            <p>Beech</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-mountain-sun"></i></div>
-            <p>Mountains</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-chess-rook"></i></div>
-            <p>Castles</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-person-swimming"></i></div>
-            <p>Pool</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-water"></i></div>
-            <p>Lake</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-volleyball"></i></div>
-            <p>Play</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-gopuram"></i></div>
-            <p>Temples</p>
-        </div>
-        <div class="filter">
-            <div><i class="fa-solid fa-chess-rook"></i></div>
-            <p>Camping</p>
-        </div>
-<div class="tax-toggle">
-    <div class="form-check-reverse form-switch">
-        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-        <label class="form-check-label" for="switchCheckDefault">Show prices with GST</label>
+
+<!-- Explore Hero & Search Bar -->
+<div class="explore-hero">
+    <h1>Explore Handpicked Hotels</h1>
+    <p>Find the perfect stay across 45+ premier destinations in India with real-time availability and transparent rates.</p>
+    
+    <form action="/listings/search" method="GET" class="explore-search-bar">
+        <i class="fas fa-search search-icon"></i>
+        <input 
+            type="text" 
+            name="searchQuery" 
+            id="searchInput" 
+            placeholder="Search by hotel name, city (e.g. Mumbai, Bengaluru, Goa)..." 
+            value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>" 
+            autocomplete="off"
+            required
+        >
+        <button type="submit" class="btn-search">
+            <i class="fas fa-search"></i> Search Hotels
+        </button>
+    </form>
+
+    <!-- Quick City Filters -->
+    <div class="city-pills">
+        <span class="text-white-50 small align-self-center me-1">Popular Cities:</span>
+        <a href="/listings/search?searchQuery=Mumbai" class="city-pill">Mumbai</a>
+        <a href="/listings/search?searchQuery=Delhi" class="city-pill">Delhi</a>
+        <a href="/listings/search?searchQuery=Bengaluru" class="city-pill">Bengaluru</a>
+        <a href="/listings/search?searchQuery=Hyderabad" class="city-pill">Hyderabad</a>
+        <a href="/listings/search?searchQuery=Goa" class="city-pill">Goa</a>
+        <a href="/listings/search?searchQuery=Jaipur" class="city-pill">Jaipur</a>
+        <a href="/listings/search?searchQuery=Ahmedabad" class="city-pill">Ahmedabad</a>
+        <a href="/listings/search?searchQuery=Kolkata" class="city-pill">Kolkata</a>
+        <a href="/listings/search?searchQuery=Pune" class="city-pill">Pune</a>
     </div>
 </div>
 
+<!-- Results Header -->
+<div class="results-header">
+    <div class="results-count">
+        <% if (typeof searchQuery !== 'undefined' && searchQuery) { %>
+            Showing results for "<span><%= searchQuery %></span>" (<%= allListings.length %> hotel<%= allListings.length === 1 ? '' : 's' %> found)
+        <% } else { %>
+            Available Stays in India (<%= allListings.length %> hotels)
+        <% } %>
     </div>
-    <div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
+    <% if (typeof searchQuery !== 'undefined' && searchQuery) { %>
+        <a href="/listings" class="btn-clear-search">
+            <i class="fas fa-times"></i> Clear Search
+        </a>
+    <% } %>
+</div>
+
+<!-- Hotel Grid -->
+<% if (allListings.length === 0) { %>
+    <div class="card border-0 shadow-sm p-5 text-center rounded-4 my-4">
+        <div class="mb-3 text-muted">
+            <i class="fas fa-hotel fa-3x text-secondary"></i>
+        </div>
+        <h3 class="fw-bold text-dark">No Hotels Found</h3>
+        <p class="text-muted mb-4">We couldn't find any stays matching "<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>". Try searching another city like Mumbai, Goa, or Bengaluru.</p>
+        <div>
+            <a href="/listings" class="btn btn-primary rounded-pill px-4 py-2">
+                <i class="fas fa-arrow-left me-2"></i>View All Hotels
+            </a>
+        </div>
+    </div>
+<% } else { %>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         <% for(let listing of allListings) { %>
-            <a href="/listings/<%=listing._id %>" class="listing-link">
-                <div class="card col listing-card" style="width: 100%;">
-                    <img src="<%= listing.image.url %>" class="card-img-top" alt="<%= listing.title %>"
-                        style="height: 20rem ; width: 25rem" ;>
-                    <div class="card-img-overlay"></div>
-                    <div class="card-body">
-                        <p class="card-text">
-                            <b><%= listing.title %></b><br />
-                            <span class="price-display" data-original-price="<%= listing.price %>">
-                                &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
-                            </span>
-                        </p>
+            <div class="col">
+                <div class="hotel-card">
+                    <div class="hotel-card-image-wrap">
+                        <img 
+                            src="<%= (listing.image && listing.image.url) ? listing.image.url : 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80' %>" 
+                            alt="<%= listing.title %>"
+                            loading="lazy"
+                        />
+                        <% if (listing.category) { %>
+                            <span class="hotel-category-badge"><%= listing.category %></span>
+                        <% } %>
+                        <div class="hotel-rating-badge">
+                            <i class="fas fa-star"></i>
+                            <span><%= (listing.rating && listing.rating > 0) ? listing.rating.toFixed(1) : '4.8' %></span>
+                        </div>
+                    </div>
+                    <div class="hotel-card-body">
+                        <h4 class="hotel-card-title"><%= listing.title %></h4>
+                        <div class="hotel-card-location">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span><%= listing.location %><% if (listing.city) { %>, <%= listing.city %><% } %></span>
+                        </div>
+                        <div class="hotel-card-footer">
+                            <div class="hotel-price">
+                                &#8377; <%= listing.price ? listing.price.toLocaleString("en-IN") : '0' %> <span>/ night</span>
+                            </div>
+                            <a href="/listings/<%= listing._id %>" class="btn-view-hotel">
+                                View Details <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </div>
                     </div>
                 </div>
-            </a>
-            <% } %>
+            </div>
+        <% } %>
     </div>
-
-    <script>
-        const taxSwitch = document.getElementById("switchCheckDefault");
-        const priceDisplays = document.getElementsByClassName("price-display");
-        const GST_RATE = 0.18; // 18% GST
-
-        function updatePrices(showWithTax) {
-            Array.from(priceDisplays).forEach(display => {
-                const originalPrice = parseFloat(display.dataset.originalPrice);
-                if (showWithTax) {
-                    const priceWithTax = originalPrice * (1 + GST_RATE);
-                    display.innerHTML = `
-                        <span class="original-price">&#8377; ${originalPrice.toLocaleString("en-IN")}</span>
-                        <span class="price-with-tax">&#8377; ${priceWithTax.toLocaleString("en-IN")} / night</span>
-                    `;
-                } else {
-                    display.innerHTML = `&#8377; ${originalPrice.toLocaleString("en-IN")} / night`;
-                }
-            });
-        }
-
-        taxSwitch.addEventListener("change", (e) => {
-            updatePrices(e.target.checked);
-        });
-    </script>
+<% } %>

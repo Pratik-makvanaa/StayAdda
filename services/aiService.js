@@ -31,7 +31,7 @@ Return ONLY raw valid JSON. Do not include markdown code blocks or additional co
 
     try {
         const response = await ai.models.generateContent({
-            model: "gemini-3.6-flash",
+            model: "gemini-3.8-flash",
             contents: userPrompt,
             config: {
                 systemInstruction: systemPrompt,

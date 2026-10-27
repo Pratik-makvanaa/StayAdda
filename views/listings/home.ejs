@@ -257,9 +257,19 @@
     <div class="hero-background" style="background-image: url('/photo1.avif');" class="active"></div>
     <div class="hero-background" style="background-image: url('/photo2.avif');"></div>
     <div class="hero-content container-fluid px-0">
-        <h1>Find Local Hotels Near You</h1>
-        <p>Quick and affordable stays for your perfect trip</p>
-        <a href="/listings" class="explore-btn">Find Hotels Now</a>
+        <span class="badge bg-light text-dark px-3 py-2 rounded-pill mb-3 fw-semibold shadow-sm">
+            <i class="fas fa-sparkles text-primary me-1"></i> India's Premier Stay Finder
+        </span>
+        <h1>Hotel Finding Made Effortless</h1>
+        <p>Discover verified luxury resorts, heritage palaces, and handpicked boutique stays across major Indian cities</p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="/listings" class="explore-btn">
+                <i class="fas fa-search me-2"></i>Find Hotels Now
+            </a>
+            <a href="/trip-planner" class="btn btn-outline-light rounded-pill px-4 py-3 fw-semibold" style="backdrop-filter: blur(8px); transition: all 0.3s ease;">
+                <i class="fas fa-route me-2"></i>Plan Your Trip
+            </a>
+        </div>
     </div>
 </section>
 
@@ -278,6 +288,59 @@
     });
 </script>
 
+<!-- Website Top Features Section -->
+<section class="top-features-overview py-5" style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);">
+    <div class="container">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="text-uppercase fw-bold text-primary tracking-wide" style="font-size: 0.85rem; letter-spacing: 1.5px;">Platform Highlights</span>
+            <h2 class="display-6 fw-bold mt-2 text-dark">Why Choose StayAdda?</h2>
+            <p class="text-muted fs-6">Explore the top features that make your hotel finding and vacation booking seamless, transparent, and enjoyable.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm p-4 text-center rounded-4" style="transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: #ffffff;">
+                    <div class="feature-icon-wrapper mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width: 64px; height: 64px; background: rgba(2, 132, 199, 0.1); color: #0284c7; font-size: 1.6rem;">
+                        <i class="fas fa-compass"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Instant Hotel Finding</h5>
+                    <p class="text-muted small mb-0">Search hundreds of curated stays across Mumbai, Delhi, Bengaluru, Hyderabad, and 40+ Indian destinations instantly.</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm p-4 text-center rounded-4" style="transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: #ffffff;">
+                    <div class="feature-icon-wrapper mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width: 64px; height: 64px; background: rgba(16, 185, 129, 0.1); color: #10b981; font-size: 1.6rem;">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">AI Smart Assistant</h5>
+                    <p class="text-muted small mb-0">Get personalized stay recommendations and budget-aware trip planning powered by an intelligent AI travel concierge.</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm p-4 text-center rounded-4" style="transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: #ffffff;">
+                    <div class="feature-icon-wrapper mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width: 64px; height: 64px; background: rgba(245, 158, 11, 0.1); color: #f59e0b; font-size: 1.6rem;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">Verified Best Deals</h5>
+                    <p class="text-muted small mb-0">Clear pricing with zero hidden charges, real guest reviews, and direct reservation confirmation for your peace of mind.</p>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-3">
+                <div class="card h-100 border-0 shadow-sm p-4 text-center rounded-4" style="transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); background: #ffffff;">
+                    <div class="feature-icon-wrapper mx-auto mb-3 d-flex align-items-center justify-content-center rounded-circle" style="width: 64px; height: 64px; background: rgba(139, 92, 246, 0.1); color: #8b5cf6; font-size: 1.6rem;">
+                        <i class="fas fa-route"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">End-to-End Itineraries</h5>
+                    <p class="text-muted small mb-0">Custom day-by-day travel schedules, nearby points of interest, and optimized route maps crafted for your trip style.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- Features Section -->
 <section class="features-section">
     <div class="container">
@@ -285,22 +348,22 @@
             <div class="col-md-4">
                 <div class="feature-card">
                     <i class="fas fa-search-location feature-icon"></i>
-                    <h3>Find Nearby Hotels</h3>
-                    <p>Discover affordable hotels in your area with our easy-to-use search.</p>
+                    <h3>Smart Hotel Finding</h3>
+                    <p>Discover premier stays and luxury hotels in your favorite destination with intuitive search.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="feature-card">
                     <i class="fas fa-bolt feature-icon"></i>
                     <h3>Quick Booking</h3>
-                    <p>Book your stay in minutes with our simple and fast booking process.</p>
+                    <p>Book your stay in minutes with our simple, fast, and seamless reservation process.</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="feature-card">
                     <i class="fas fa-wallet feature-icon"></i>
-                    <h3>Best Prices</h3>
-                    <p>Get the best deals on local hotels with our competitive pricing.</p>
+                    <h3>Best Value Prices</h3>
+                    <p>Get the best deals on verified hotels with our transparent and competitive pricing.</p>
                 </div>
             </div>
         </div>
@@ -350,19 +413,19 @@
         <div class="row g-4">
             <div class="col-md-4">
                 <div class="testimonial-card">
-                    <p class="testimonial-text">"Found a great hotel near my workplace at an amazing price. The booking process was super quick!"</p>
+                    <p class="testimonial-text">"Found a luxury hotel in Bengaluru with an amazing deal. The booking process was super fast and transparent!"</p>
                     <p class="testimonial-author">- Rahul Sharma</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="testimonial-card">
-                    <p class="testimonial-text">"Perfect for last-minute bookings. The local hotel options are great and affordable."</p>
+                    <p class="testimonial-text">"StayAdda's hotel finding feature is great! The hotel options are handpicked, reliable, and verified."</p>
                     <p class="testimonial-author">- Priya Patel</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="testimonial-card">
-                    <p class="testimonial-text">"Easy to find hotels in my area with good prices. Will definitely use again!"</p>
+                    <p class="testimonial-text">"Easy to search and book hotels across major cities. Will definitely recommend to friends and family!"</p>
                     <p class="testimonial-author">- Amit Kumar</p>
                 </div>
             </div>

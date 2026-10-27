@@ -1,0 +1,30 @@
+<%= layout("/layouts/boilerplate") %>
+
+<style>
+    .error-container {
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 3rem;
+    }
+    .error-code {
+        font-size: 6rem;
+        font-weight: 700;
+        color: #2c3e50;
+        line-height: 1;
+    }
+    .error-message {
+        font-size: 1.5rem;
+        color: #666;
+        margin: 1rem 0 2rem;
+    }
+</style>
+
+<div class="error-container">
+    <div class="error-code">Oops!</div>
+    <p class="error-message"><%= message %></p>
+    <a href="/listings" class="btn btn-dark">Go Back to Listings</a>
+</div>

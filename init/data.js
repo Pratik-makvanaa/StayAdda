@@ -1266,6 +1266,167 @@ const sampleListings = [
         ],
         availableRooms: 4,
         bestSeason: ["October", "November", "December", "January", "February"]
+    },
+    {
+        title: "The Leela Palace Bengaluru",
+        description: "Inspired by the royal heritage of Mysore, this majestic palace hotel features ornate arches, gold-leaf domes, lush 7-acre gardens, award-winning fine dining restaurants, and luxurious suites.",
+        image: { url: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=1200&q=80", filename: "listing_leela_bengaluru" },
+        price: 18500,
+        location: "Old Airport Road, Kodihalli",
+        city: "Bengaluru",
+        state: "Karnataka",
+        country: "India",
+        category: "Luxury",
+        rating: 4.9,
+        numReviews: 312,
+        amenities: ["WiFi", "Pool", "AC", "Spa", "Fine Dining", "Gym", "Valet Parking", "Garden"],
+        coordinates: { lat: 12.9606, lng: 77.6484 },
+        nearbyAttractions: [{ name: "HAL Heritage Centre", distance: "2.1 km" }, { name: "Indiranagar 100ft Rd", distance: "2.5 km" }],
+        travelType: ["Business", "Luxury", "Couples", "Family"],
+        roomTypes: [
+            { name: "Deluxe Premiere Room", price: 18500, capacity: 2 },
+            { name: "Royal Premiere Suite", price: 34000, capacity: 3 }
+        ],
+        availableRooms: 7,
+        bestSeason: ["All Season"]
+    },
+    {
+        title: "Taj Falaknuma Palace",
+        description: "Perched 2,000 feet above the historic city of Hyderabad, this former palace of the Nizam offers Venetian chandeliers, marble staircases, horse-drawn carriage arrivals, and authentic Nizami hospitality.",
+        image: { url: "https://images.unsplash.com/photo-1582719508461-905c673771fd?auto=format&fit=crop&w=1200&q=80", filename: "listing_taj_falaknuma" },
+        price: 36000,
+        location: "Engine Bowli, Fatima Nagar, Falaknuma",
+        city: "Hyderabad",
+        state: "Telangana",
+        country: "India",
+        category: "Heritage",
+        rating: 4.9,
+        numReviews: 245,
+        amenities: ["WiFi", "Outdoor Pool", "AC", "Jiva Spa", "Heritage Tour", "Fine Dining", "Valet Parking"],
+        coordinates: { lat: 17.3314, lng: 78.4678 },
+        nearbyAttractions: [{ name: "Charminar", distance: "4.8 km" }, { name: "Chowmahalla Palace", distance: "4.2 km" }],
+        travelType: ["Couples", "Luxury", "Family"],
+        roomTypes: [
+            { name: "Palace Room", price: 36000, capacity: 2 },
+            { name: "Historical Suite", price: 58000, capacity: 3 }
+        ],
+        availableRooms: 5,
+        bestSeason: ["October", "November", "December", "January", "February", "March"]
+    },
+    {
+        title: "The House of MG Heritage Hotel",
+        description: "A premier boutique heritage mansion dating back to 1924 in Ahmedabad, showcasing restored Gujarati architecture, exquisite courtyard dining at Agashiye, and an indoor swimming pool.",
+        image: { url: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=1200&q=80", filename: "listing_house_of_mg" },
+        price: 7800,
+        location: "Opposite Sidi Saiyyed Mosque, Gheekanta",
+        city: "Ahmedabad",
+        state: "Gujarat",
+        country: "India",
+        category: "Heritage",
+        rating: 4.7,
+        numReviews: 189,
+        amenities: ["WiFi", "Indoor Pool", "AC", "Rooftop Restaurant", "Free Breakfast", "Heritage Walk"],
+        coordinates: { lat: 23.0274, lng: 72.5815 },
+        nearbyAttractions: [{ name: "Sidi Saiyyed Mosque", distance: "0.1 km" }, { name: "Sabarmati Ashram", distance: "4.5 km" }],
+        travelType: ["Couples", "Solo", "Family"],
+        roomTypes: [
+            { name: "Heritage Deluxe Room", price: 7800, capacity: 2 },
+            { name: "Grand Heritage Suite", price: 13500, capacity: 4 }
+        ],
+        availableRooms: 6,
+        bestSeason: ["October", "November", "December", "January", "February", "March"]
+    },
+    {
+        title: "The Ritz-Carlton Pune",
+        description: "Set in downtown Pune with panoramic golf course views, sophisticated luxury suites, bespoke club lounge experiences, an expansive signature spa, and exceptional gourmet dining.",
+        image: { url: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=1200&q=80", filename: "listing_ritz_pune" },
+        price: 15500,
+        location: "Golf Course Square, Airport Road, Yerawada",
+        city: "Pune",
+        state: "Maharashtra",
+        country: "India",
+        category: "Luxury",
+        rating: 4.8,
+        numReviews: 198,
+        amenities: ["WiFi", "Pool", "AC", "Ritz-Carlton Spa", "Golf Views", "Gym", "Valet Parking"],
+        coordinates: { lat: 18.5529, lng: 73.8828 },
+        nearbyAttractions: [{ name: "Aga Khan Palace", distance: "1.8 km" }, { name: "Koregaon Park", distance: "3.2 km" }],
+        travelType: ["Business", "Couples", "Luxury"],
+        roomTypes: [
+            { name: "Deluxe King Room", price: 15500, capacity: 2 },
+            { name: "Executive Golf Suite", price: 29000, capacity: 3 }
+        ],
+        availableRooms: 8,
+        bestSeason: ["All Season"]
+    },
+    {
+        title: "JW Marriott Hotel Chandigarh",
+        description: "An urban 5-star haven in Chandigarh Sector 35 featuring rooftop infinity pool, Quan Spa, contemporary guest rooms, and award-winning international dining venues.",
+        image: { url: "https://images.unsplash.com/photo-1564501049412-61c2a3083791?auto=format&fit=crop&w=1200&q=80", filename: "listing_jw_chandigarh" },
+        price: 11200,
+        location: "Plot No 6, Dakshin Marg, Sector 35B",
+        city: "Chandigarh",
+        state: "Chandigarh",
+        country: "India",
+        category: "Luxury",
+        rating: 4.7,
+        numReviews: 220,
+        amenities: ["WiFi", "Rooftop Pool", "AC", "Quan Spa", "Gym", "Valet Parking", "Bar"],
+        coordinates: { lat: 30.7258, lng: 76.7645 },
+        nearbyAttractions: [{ name: "Rock Garden", distance: "6.2 km" }, { name: "Sukhna Lake", distance: "7.0 km" }],
+        travelType: ["Business", "Family", "Couples"],
+        roomTypes: [
+            { name: "Deluxe King Room", price: 11200, capacity: 2 },
+            { name: "Executive Suite", price: 21500, capacity: 3 }
+        ],
+        availableRooms: 5,
+        bestSeason: ["All Season"]
+    },
+    {
+        title: "Taj Mahal Lucknow",
+        description: "Grand heritage luxury nestled amidst 20 acres of landscaped lawns along the Gomti River. Features Nawabi architectural details, Awadhi fine dining at Oudhyana, and an outdoor pool.",
+        image: { url: "https://images.unsplash.com/photo-1578683010236-d716f9a3f461?auto=format&fit=crop&w=1200&q=80", filename: "listing_taj_lucknow" },
+        price: 12500,
+        location: "Vipin Khand, Gomti Nagar",
+        city: "Lucknow",
+        state: "Uttar Pradesh",
+        country: "India",
+        category: "Luxury",
+        rating: 4.8,
+        numReviews: 175,
+        amenities: ["WiFi", "Pool", "AC", "Awadhi Restaurant", "Spa", "Lush Gardens", "Valet Parking"],
+        coordinates: { lat: 26.8524, lng: 80.9763 },
+        nearbyAttractions: [{ name: "Bara Imambara", distance: "7.5 km" }, { name: "Hazratganj", distance: "4.0 km" }],
+        travelType: ["Business", "Couples", "Family"],
+        roomTypes: [
+            { name: "Superior Room Garden View", price: 12500, capacity: 2 },
+            { name: "Taj Executive Suite", price: 23000, capacity: 3 }
+        ],
+        availableRooms: 6,
+        bestSeason: ["October", "November", "December", "January", "February", "March"]
+    },
+    {
+        title: "Grand Hyatt Kochi Bolgatty",
+        description: "A spectacular waterfront resort located on Bolgatty Island with stunning backwater views, expansive leisure pools, Santata Spa, and scenic marina promenade.",
+        image: { url: "https://images.unsplash.com/photo-1590490360182-c33d57733427?auto=format&fit=crop&w=1200&q=80", filename: "listing_grand_hyatt_kochi" },
+        price: 13800,
+        location: "Bolgatty Island, Mulavukad",
+        city: "Kochi",
+        state: "Kerala",
+        country: "India",
+        category: "Resort",
+        rating: 4.9,
+        numReviews: 260,
+        amenities: ["WiFi", "Indoor & Outdoor Pools", "AC", "Santata Spa", "Backwater Views", "Gym", "Marina Walk"],
+        coordinates: { lat: 9.9868, lng: 76.2673 },
+        nearbyAttractions: [{ name: "Fort Kochi", distance: "9.0 km" }, { name: "Marine Drive Kochi", distance: "3.5 km" }],
+        travelType: ["Couples", "Family", "Luxury", "Business"],
+        roomTypes: [
+            { name: "Grand King Lake View", price: 13800, capacity: 2 },
+            { name: "Bolgatty Suite with Terrace", price: 26500, capacity: 4 }
+        ],
+        availableRooms: 6,
+        bestSeason: ["September", "October", "November", "December", "January", "February"]
     }
 ];
 

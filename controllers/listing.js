@@ -3,8 +3,41 @@ const { cloudinary } = require("../cloudConfig.js");
 
 // GET /listings - Show all listings
 module.exports.index = async (req, res) => {
+    const { searchQuery } = req.query;
+    if (searchQuery && searchQuery.trim() !== "") {
+        const searchRegex = new RegExp(searchQuery.trim(), "i");
+        const allListings = await Listing.find({
+            $or: [
+                { title: searchRegex },
+                { location: searchRegex },
+                { city: searchRegex },
+                { state: searchRegex },
+                { country: searchRegex }
+            ]
+        });
+        return res.render("listings/index.ejs", { allListings, searchQuery: searchQuery.trim() });
+    }
     const allListings = await Listing.find({});
-    res.render("listings/index.ejs", { allListings });
+    res.render("listings/index.ejs", { allListings, searchQuery: "" });
+};
+
+// GET /listings/search - Search listings
+module.exports.searchListings = async (req, res) => {
+    const { searchQuery } = req.query;
+    if (!searchQuery || searchQuery.trim() === "") {
+        return res.redirect("/listings");
+    }
+    const searchRegex = new RegExp(searchQuery.trim(), "i");
+    const allListings = await Listing.find({
+        $or: [
+            { title: searchRegex },
+            { location: searchRegex },
+            { city: searchRegex },
+            { state: searchRegex },
+            { country: searchRegex }
+        ]
+    });
+    res.render("listings/index.ejs", { allListings, searchQuery: searchQuery.trim() });
 };
 
 // GET /listings/new - Render new listing form

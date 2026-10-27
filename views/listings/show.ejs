@@ -330,14 +330,8 @@
             </div>
 
             <div class="price-section">
-                <div class="tax-toggle">
-                    <div class="form-check-reverse form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="switchCheckDefault">
-                        <label class="form-check-label" for="switchCheckDefault">Show prices with GST</label>
-                    </div>
-                </div>
                 <p class="price-display mb-0" data-original-price="<%= listing.price %>">
-                    &#8377; <%= listing.price.toLocaleString("en-IN") %> / night
+                    &#8377; <%= listing.price.toLocaleString("en-IN") %> <span class="fs-6 text-muted fw-normal">/ night (all inclusive)</span>
                 </p>
             </div>
 
@@ -357,10 +351,14 @@
             </div>
 
             <% if(listing.owner && currUser && listing.owner._id.equals(currUser._id)) { %>
-                <div class="action-buttons">
-                    <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark">Edit Listing</a>
+                <div class="action-buttons mt-4 d-flex gap-2">
+                    <a href="/listings/<%= listing._id %>/edit" class="btn edit-btn">
+                        <i class="fas fa-edit me-1"></i> Edit Listing
+                    </a>
                     <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE" class="d-inline">
-                        <button class="btn btn-dark">Delete Listing</button>
+                        <button class="btn btn-outline-danger px-4 py-2 rounded-3 fw-semibold">
+                            <i class="fas fa-trash me-1"></i> Delete Listing
+                        </button>
                     </form>
                 </div>
             <% } %>
@@ -414,26 +412,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    const taxSwitch = document.getElementById("switchCheckDefault");
-    const priceDisplay = document.querySelector(".price-display");
-    const GST_RATE = 0.18; // 18% GST
-
-    function updatePrice(showWithTax) {
-        const originalPrice = parseFloat(priceDisplay.dataset.originalPrice);
-        if (showWithTax) {
-            const priceWithTax = originalPrice * (1 + GST_RATE);
-            priceDisplay.innerHTML = `
-                <span class="original-price">&#8377; ${originalPrice.toLocaleString("en-IN")}</span>
-                <span class="price-with-tax">&#8377; ${priceWithTax.toLocaleString("en-IN")} / night</span>
-            `;
-        } else {
-            priceDisplay.innerHTML = `&#8377; ${originalPrice.toLocaleString("en-IN")} / night`;
-        }
-    }
-
-    taxSwitch.addEventListener("change", (e) => {
-        updatePrice(e.target.checked);
-    });
-</script>

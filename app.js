@@ -28,22 +28,8 @@ const listingsRouter = require("./routes/listings.js");
 const aiRouter = require("./routes/ai.js");
 const tripPlannerRouter = require("./routes/tripPlanner.js");
 
-// const dbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/stayadda";
-const dbUrl =
-    process.env.ATLASDB_URL ||
-    (process.env.NODE_ENV !== "production"
-        ? "mongodb://127.0.0.1:27017/stayadda"
-        : null);
-
-if (!dbUrl) {
-    throw new Error("ATLASDB_URL is required in production");
-}
-
-// async function main() {
-//     await mongoose.connect(dbUrl);
-//     console.log("Connected to MongoDB");
-// }
-// main().catch((err) => console.log(err));
+const primaryDbUrl = process.env.ATLASDB_URL || "mongodb://127.0.0.1:27017/stayadda";
+const localDbUrl = "mongodb://127.0.0.1:27017/stayadda";
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
@@ -55,13 +41,17 @@ app.use(methodOverride("_method"));
 app.use(express.static(path.join(__dirname, "public")));
 
 const store = MongoStore.create({
-    mongoUrl: dbUrl,
-    crypto: { secret: process.env.SECRET },
+    mongoUrl: primaryDbUrl,
+    crypto: { secret: process.env.SECRET || "local-development-only-secret" },
     touchAfter: 24 * 3600,
+    mongoOptions: {
+        serverSelectionTimeoutMS: 15000,
+        connectTimeoutMS: 20000,
+    }
 });
 
 store.on("error", (err) => {
-    console.log("SESSION STORE ERROR", err);
+    console.log("SESSION STORE ERROR:", err.message);
 });
 
 
@@ -133,17 +123,30 @@ app.use((err, req, res, next) => {
 const PORT = process.env.PORT || 8080;
 
 async function startServer() {
-    try {
-        await mongoose.connect(dbUrl);
-        console.log("Connected to MongoDB");
+    const mongoOptions = {
+        serverSelectionTimeoutMS: 15000,
+        connectTimeoutMS: 20000,
+    };
 
-        app.listen(PORT, () => {
-            console.log(`Server is running on port ${PORT}`);
-        });
-    } catch (err) {
-        console.error("Failed to start application:", err);
-        process.exit(1);
+    try {
+        console.log("Connecting to MongoDB Atlas...");
+        await mongoose.connect(primaryDbUrl, mongoOptions);
+        console.log("Connected to MongoDB Atlas");
+    } catch (primaryErr) {
+        console.warn("MongoDB Atlas connection timed out/failed:", primaryErr.message);
+        console.log("Attempting to connect to local MongoDB fallback...");
+        try {
+            await mongoose.connect(localDbUrl, mongoOptions);
+            console.log("Connected to local MongoDB (fallback)");
+        } catch (localErr) {
+            console.error("Failed to connect to both Atlas and local MongoDB:", localErr.message);
+            process.exit(1);
+        }
     }
+
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
 }
 
 startServer();
