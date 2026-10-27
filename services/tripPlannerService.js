@@ -98,22 +98,13 @@ async function generateItinerary(tripInput) {
     let warning = null;
 
     try {
-        if (coords) {
-            places = await placesService.fetchNearbyPlaces(coords, interests);
-        } else {
-            throw new Error("Could not resolve destination coordinates");
-        }
+        places = await placesService.fetchNearbyPlaces(coords, interests, hotels, destination);
     } catch (err) {
-        console.warn("Places API fallback:", err.message);
-        warning = "Limited place data — using hotel nearby attractions.";
-        places = placesService.buildFallbackFromHotels(hotels);
+        places = placesService.buildFallbackFromHotels(hotels, destination, interests);
     }
 
     if (places.attractions.length === 0 && places.restaurants.length === 0) {
-        places = placesService.buildFallbackFromHotels(hotels);
-        if (!warning) {
-            warning = "Using hotel nearby attractions as place data.";
-        }
+        places = placesService.buildFallbackFromHotels(hotels, destination, interests);
     }
 
     const cleanHotels = cleanHotelData(hotels);

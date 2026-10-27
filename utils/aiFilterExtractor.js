@@ -29,8 +29,8 @@ If the message is not related to travel/hotel search at all, return {}.
 `;
 
   try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3.6-flash",
+    const generatePromise = ai.models.generateContent({
+      model: "gemini-3.8-flash",
       contents: userMessage,
       config: {
         systemInstruction: systemPrompt,
@@ -39,9 +39,14 @@ If the message is not related to travel/hotel search at all, return {}.
       }
     });
 
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error("AI Filter extraction timed out")), 8000);
+    });
+
+    const response = await Promise.race([generatePromise, timeoutPromise]);
     return JSON.parse(response.text);
   } catch (err) {
-    console.error("Failed to parse Gemini AI filter JSON:", err.message);
+    console.error("Gemini AI filter extraction fallback:", err.message);
     return {};
   }
 }

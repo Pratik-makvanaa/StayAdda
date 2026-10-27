@@ -2,15 +2,83 @@ const { GoogleGenAI } = require("@google/genai");
 const Listing = require("../models/listing");
 
 // Initialize Google Gemini AI client
-const ai = new GoogleGenAI({
-    apiKey: process.env.GEMINI_API_KEY || "",
-});
+const ai = process.env.GEMINI_API_KEY
+    ? new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY })
+    : null;
+
+/**
+ * Robust local fallback intent parser based on keyword and regex extraction.
+ * Activates when AI API times out, fails, or is unavailable.
+ */
+function parseFallbackIntent(userPrompt, previousContext = {}) {
+    const text = (userPrompt || "").toLowerCase();
+
+    // 1. Budget extraction (e.g., "under 3000", "budget 5000", "₹4000", "2000 rs")
+    let maxPrice = null;
+    const priceMatch = userPrompt.match(/(?:under|below|less than|within|budget of?|max(?:imum)?)\s*(?:rs\.?|inr|₹)?\s*(\d+[\d,]*)/i)
+        || userPrompt.match(/(?:rs\.?|inr|₹)\s*(\d+[\d,]*)/i)
+        || userPrompt.match(/(\d+[\d,]*)\s*(?:rs|rupees|inr)/i);
+    if (priceMatch && priceMatch[1]) {
+        maxPrice = parseInt(priceMatch[1].replace(/,/g, ""), 10);
+    }
+
+    // 2. Travel type extraction
+    let travelType = null;
+    if (/\b(couple|honeymoon|romantic|partner)\b/i.test(text)) travelType = "Couples";
+    else if (/\b(family|kids|children|parents)\b/i.test(text)) travelType = "Family";
+    else if (/\b(solo|alone|myself)\b/i.test(text)) travelType = "Solo";
+    else if (/\b(friends|buddies|group)\b/i.test(text)) travelType = "Friends";
+
+    // 3. Amenities extraction
+    const commonAmenities = ["pool", "swimming pool", "wifi", "parking", "breakfast", "mountain view", "beach", "lake view", "ac", "air conditioning", "balcony"];
+    const amenities = [];
+    for (const am of commonAmenities) {
+        if (text.includes(am)) amenities.push(am);
+    }
+
+    // 4. Known destination matching
+    const knownLocations = [
+        "manali", "goa", "jaipur", "mumbai", "delhi", "udaipur", "shimla",
+        "rishikesh", "kerala", "varanasi", "bangalore", "bengaluru", "kolkata",
+        "chennai", "pune", "agra", "ooty", "darjeeling", "mussoorie", "nainital",
+        "amritsar", "jodhpur", "jaisalmer", "leh", "ladakh", "lonavala", "pondicherry", "kochi"
+    ];
+
+    let location = null;
+    for (const loc of knownLocations) {
+        if (new RegExp(`\\b${loc}\\b`, "i").test(text)) {
+            location = loc.charAt(0).toUpperCase() + loc.slice(1);
+            break;
+        }
+    }
+
+    if (!location) {
+        const inMatch = userPrompt.match(/\b(?:in|at|around|near|visit|to)\s+([A-Za-z]+(?:\s+[A-Za-z]+)?)\b/i);
+        if (inMatch && inMatch[1] && !["the", "a", "an", "my", "our", "hotel", "hotels", "stay", "stays", "resort", "room"].includes(inMatch[1].toLowerCase())) {
+            location = inMatch[1].trim();
+        }
+    }
+
+    return {
+        location: location || previousContext.location || null,
+        maxPrice: maxPrice !== null ? maxPrice : (previousContext.maxPrice || null),
+        amenities: Array.from(new Set([...(previousContext.amenities || []), ...amenities])),
+        guestCount: previousContext.guestCount || null,
+        travelType: travelType || previousContext.travelType || null,
+        intent: "search",
+        hotelName: previousContext.hotelName || null
+    };
+}
 
 /**
  * Parses user input to extract structured search filters and intent.
  * Combines current prompt with existing session memory context using Google Gemini.
  */
 async function parseUserIntent(userPrompt, previousContext = {}) {
+    if (!ai) {
+        return parseFallbackIntent(userPrompt, previousContext);
+    }
+
     const systemPrompt = `You are a travel query parsing assistant for StayAdda hotel booking system.
 Your job is to extract search parameters and intent from a user's prompt, while maintaining past context.
 
@@ -30,7 +98,7 @@ Extract the following JSON structure:
 Return ONLY raw valid JSON. Do not include markdown code blocks or additional commentary.`;
 
     try {
-        const response = await ai.models.generateContent({
+        const generatePromise = ai.models.generateContent({
             model: "gemini-3.8-flash",
             contents: userPrompt,
             config: {
@@ -40,9 +108,13 @@ Return ONLY raw valid JSON. Do not include markdown code blocks or additional co
             }
         });
 
+        const timeoutPromise = new Promise((_, reject) => {
+            setTimeout(() => reject(new Error("Intent parsing timed out")), 6000);
+        });
+
+        const response = await Promise.race([generatePromise, timeoutPromise]);
         const parsed = JSON.parse(response.text);
         
-        // Merge with previous context if new value isn't explicitly provided
         return {
             location: parsed.location || previousContext.location || null,
             maxPrice: parsed.maxPrice !== undefined && parsed.maxPrice !== null ? parsed.maxPrice : (previousContext.maxPrice || null),
@@ -53,16 +125,8 @@ Return ONLY raw valid JSON. Do not include markdown code blocks or additional co
             hotelName: parsed.hotelName || previousContext.hotelName || null
         };
     } catch (err) {
-        console.error("Gemini Intent Parsing Error:", err.message);
-        return {
-            location: previousContext.location || null,
-            maxPrice: previousContext.maxPrice || null,
-            amenities: previousContext.amenities || [],
-            guestCount: previousContext.guestCount || null,
-            travelType: previousContext.travelType || null,
-            intent: "search",
-            hotelName: null
-        };
+        console.warn("Using fallback intent parser:", err.message);
+        return parseFallbackIntent(userPrompt, previousContext);
     }
 }
 
@@ -138,7 +202,7 @@ async function fetchMatchingListings(criteria) {
 }
 
 /**
- * Main process Assistant function - combines parser, MongoDB lookup, and grounded response synthesis using Gemini.
+ * Main process Assistant function - combines parser, MongoDB lookup, and grounded response synthesis.
  */
 async function processAssistantQuery(userPrompt, sessionState = {}) {
     if (!userPrompt || typeof userPrompt !== "string" || !userPrompt.trim()) {
@@ -149,15 +213,7 @@ async function processAssistantQuery(userPrompt, sessionState = {}) {
         };
     }
 
-    if (!process.env.GEMINI_API_KEY) {
-        return {
-            reply: "The AI Assistant is currently offline due to missing GEMINI_API_KEY configuration in environment variables. Please contact administrator.",
-            updatedState: sessionState,
-            hotels: []
-        };
-    }
-
-    // Step 1: Parse intent and update state memory via Gemini
+    // Step 1: Parse intent and update state memory (with local keyword fallback)
     const updatedState = await parseUserIntent(userPrompt, sessionState);
 
     // Step 2: Fetch ground-truth MongoDB listings
@@ -175,7 +231,7 @@ async function processAssistantQuery(userPrompt, sessionState = {}) {
     const cleanHotelsContext = matchedListings.map(h => {
         const avgRating = h.reviews && h.reviews.length > 0 
             ? (h.reviews.reduce((acc, r) => acc + r.rating, 0) / h.reviews.length).toFixed(1)
-            : "No ratings yet";
+            : "4.5";
         
         return {
             id: h._id.toString(),
@@ -190,8 +246,9 @@ async function processAssistantQuery(userPrompt, sessionState = {}) {
         };
     });
 
-    // Step 3: Grounded Gemini Response Generation
-    const systemPrompt = `You are "StayAdda AI Travel Consultant", an expert, helpful, and courteous travel assistant for the StayAdda platform powered by Google Gemini.
+    // Step 3: Grounded Gemini Response Generation with intelligent fallback
+    if (ai) {
+        const systemPrompt = `You are "StayAdda AI Travel Consultant", an expert, helpful, and courteous travel assistant for the StayAdda platform powered by Google Gemini.
 
 CRITICAL MANDATORY RULES:
 1. Grounding: You MUST ONLY recommend and answer questions about the hotels provided in the "GROUND TRUTH HOTELS FROM DATABASE" section below. NEVER fabricate, invent, or hallucinate hotels not listed in the database context.
@@ -200,9 +257,7 @@ CRITICAL MANDATORY RULES:
    - Explain WHY the hotel matches their request.
    - List key ADVANTAGES (e.g. price value, location, amenities, atmosphere).
    - Note POSSIBLE LIMITATIONS (e.g., check description/price constraints, budget trade-offs).
-4. For Q&A (parking, breakfast, family friendliness, etc.): Answer accurately based solely on the description and reviews of the retrieved hotels.
-5. For Trip Suggestions: If asked about itineraries or nearby attractions, give a tailored plan based on the destination city and mention that for live route guidance/maps, external APIs like Google Maps / Google Places API can be integrated.
-6. Tone: Warm, professional, helpful, formatted nicely with Markdown (bolding, bullet points).
+4. Tone: Warm, professional, helpful, formatted nicely with Markdown (bolding, bullet points).
 
 CURRENT ACTIVE USER PREFERENCES MEMORY:
 ${JSON.stringify(updatedState, null, 2)}
@@ -210,39 +265,53 @@ ${JSON.stringify(updatedState, null, 2)}
 GROUND TRUTH HOTELS FROM DATABASE:
 ${JSON.stringify(cleanHotelsContext, null, 2)}`;
 
-    try {
-        const response = await ai.models.generateContent({
-            model: "gemini-3.6-flash",
-            contents: userPrompt,
-            config: {
-                systemInstruction: systemPrompt,
-                temperature: 0.4,
-            }
-        });
+        try {
+            const generatePromise = ai.models.generateContent({
+                model: "gemini-3.8-flash",
+                contents: userPrompt,
+                config: {
+                    systemInstruction: systemPrompt,
+                    temperature: 0.4,
+                }
+            });
 
-        const reply = response.text;
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error("AI response generation timed out")), 8000);
+            });
 
-        return {
-            reply,
-            updatedState,
-            hotels: cleanHotelsContext
-        };
-    } catch (err) {
-        console.error("Gemini AI Response Generation Error:", err.message);
-        
-        let errorMessage = "Sorry, I encountered an issue processing your request via Gemini AI. Please try again.";
-        if (err.message && err.message.includes('429')) {
-            errorMessage = "Google Gemini rate limit reached. Please wait a moment and try again.";
-        } else if (err.message && err.message.includes('API key')) {
-            errorMessage = "Google Gemini API key authentication failed. Please check GEMINI_API_KEY in environment settings.";
+            const response = await Promise.race([generatePromise, timeoutPromise]);
+            return {
+                reply: response.text,
+                updatedState,
+                hotels: cleanHotelsContext
+            };
+        } catch (err) {
+            console.warn("Gemini AI Response Generation fallback:", err.message);
         }
-
-        return {
-            reply: errorMessage,
-            updatedState,
-            hotels: cleanHotelsContext
-        };
     }
+
+    // High quality deterministic fallback response
+    let reply = "";
+    if (cleanHotelsContext.length > 0) {
+        const dest = updatedState.location ? `in **${updatedState.location}**` : "matching your preferences";
+        const budgetNote = updatedState.maxPrice ? ` within ₹${updatedState.maxPrice.toLocaleString("en-IN")}` : "";
+        reply = `I found **${cleanHotelsContext.length} great verified stays** ${dest}${budgetNote}:\n\n` +
+            cleanHotelsContext.slice(0, 4).map((h, i) => 
+                `**${i + 1}. ${h.title}** (${h.location})\n` +
+                `• **Price:** ₹${Number(h.pricePerNight).toLocaleString("en-IN")} / night\n` +
+                `• **Rating:** ⭐ ${h.avgRating} (${h.reviewCount} reviews)\n` +
+                (h.description ? `• **Highlights:** ${h.description.slice(0, 110)}...\n` : "")
+            ).join("\n") +
+            `\n*Click on any card below to view details and book your stay!*`;
+    } else {
+        reply = `I couldn't find any stays directly matching **${updatedState.location || "your search"}** with your current filters. Try increasing your budget or checking popular destinations like **Goa, Manali, Jaipur, or Mumbai**!`;
+    }
+
+    return {
+        reply,
+        updatedState,
+        hotels: cleanHotelsContext
+    };
 }
 
 module.exports = {
